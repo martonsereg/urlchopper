@@ -26,7 +26,7 @@ public class IndexController {
      * Controller for index page.
      * @return tiles name.
      */
-    @RequestMapping("/")
+    @RequestMapping("/index")
     public String index() {
         return "index";
     }
@@ -43,7 +43,7 @@ public class IndexController {
         String shortUrl = generatorService.generate(url);
 
         model.addFlashAttribute("shortUrl", shortUrl);
-        return "redirect:/";
+        return "redirect:/index";
     }
 
     /**
@@ -55,17 +55,20 @@ public class IndexController {
     @RequestMapping("/{shortUrl}")
     public String redirect(@PathVariable String shortUrl, RedirectAttributes model) {
 
-        if (shortUrl.equals("")) {
-            System.out.println("pina");
-        }
         String retUrl = "";
-        try {
-            //todo
-            String url = generatorService.findActiveOriginalUrl(shortUrl);
-            retUrl = "redirect:" + url;
-        } catch (Exception e) {
-            model.addFlashAttribute("errorMsg", "This URL is not valid!");
-            retUrl = "redirect:/";
+
+        if (shortUrl.equals("resourceNotFound")) {
+            retUrl = "redirect:/index";
+        } else {
+
+            try {
+                //todo
+                String url = generatorService.findActiveOriginalUrl(shortUrl);
+                retUrl = "redirect:" + url;
+            } catch (Exception e) {
+                model.addFlashAttribute("errorMsg", "This URL is not valid!");
+                retUrl = "redirect:/index";
+            }
         }
 
         return retUrl;
