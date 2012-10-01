@@ -9,15 +9,15 @@
     <put-attribute name="body" value="/WEB-INF/views/index.jsp" />
   </definition>
 
-  <definition name="dataAccessFailure" extends="public">
+  <definition name="error/dataAccessFailure" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jspx" />
   </definition>
 
-  <definition name="resourceNotFound" extends="public">
+  <definition name="error/resourceNotFound" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jspx" />
   </definition>
 
-  <definition name="uncaughtException" extends="public">
+  <definition name="error/uncaughtException" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
   </definition>
 

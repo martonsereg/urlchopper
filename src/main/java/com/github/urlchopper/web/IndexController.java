@@ -55,9 +55,7 @@ public class IndexController {
     @RequestMapping("/{shortUrl}")
     public String redirect(@PathVariable String shortUrl, RedirectAttributes model) {
 
-        if (shortUrl.equals("")) {
-            System.out.println("pina");
-        }
+        System.out.println(shortUrl);
         String retUrl = "";
         try {
             //todo
