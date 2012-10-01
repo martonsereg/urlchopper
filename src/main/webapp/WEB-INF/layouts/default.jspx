@@ -2,7 +2,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util">
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:my="urn:jsptagdir:/WEB-INF/tags/">
 
 <jsp:output doctype-root-element="HTML"
 	doctype-system="about:legacy-compat" />
@@ -26,8 +27,7 @@
 	<tiles:insertAttribute name="menu" ignore="true" />
 	<div id="container">
 		<tiles:insertAttribute name="body" />
-		<tiles:insertAttribute name="footer" ignore="true" />
 	</div>
-
+	<tiles:insertAttribute name="footer" ignore="true" />
 </body>
 </html>
