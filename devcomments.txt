@@ -32,7 +32,7 @@ felület:
 ha marad ido:
 	- cache megvalósítás (configolható mennyiségu url megorzése cache-ben, nem kell adatb. hozzáférés ha megtalálja)
 	- lehet késobb ujraaktivalni mar nem aktiv url-t (nem kell generálni újat)
-
+	-ablak, amiben az utolso par db benne van
 
 
 
@@ -41,3 +41,4 @@ problémák:
 - túl hosszú url-től az adatbázis elszáll
 - input nem valid url (httpURLConnection)
 - properties fájl
+

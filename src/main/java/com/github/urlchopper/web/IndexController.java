@@ -66,4 +66,3 @@ public class IndexController {
         return retUrl;
     }
 }
-
