@@ -19,6 +19,10 @@ import com.github.urlchopper.service.GeneratorService;
 @Service
 public class SimpleGeneratorService implements GeneratorService {
 
+    private static final int MULTIPLY = 1000;
+
+    private static final Integer GENERATED_URL_LENGTH = 4;
+
     private List<Character> characters = new ArrayList<Character>();
 
     @Autowired
@@ -43,13 +47,28 @@ public class SimpleGeneratorService implements GeneratorService {
     @Override
     public String generate(String originalUrl) {
 
-        return null;
+        String ret = "";
+        double rnd = Math.random();
+        for (int i = 0; i < GENERATED_URL_LENGTH; i++) {
+            int index = (int) ((rnd * MULTIPLY) % characters.size());
+            ret  += characters.get(index);
+        }
+
+        return ret;
     }
 
     @Override
     public String findActiveShortUrl(String shortUrl) {
-        
+
         return null;
+    }
+    
+    private boolean isExistUrl(String url){
+        boolean ret = false;
+        
+        shortUrlRepository.
+        
+        return ret;
     }
 
 }
