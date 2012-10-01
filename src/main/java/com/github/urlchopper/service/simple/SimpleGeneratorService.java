@@ -51,7 +51,7 @@ public class SimpleGeneratorService implements GeneratorService {
         double rnd = Math.random();
         for (int i = 0; i < GENERATED_URL_LENGTH; i++) {
             int index = (int) ((rnd * MULTIPLY) % characters.size());
-            ret  += characters.get(index);
+            ret += characters.get(index);
         }
 
         return ret;
@@ -62,12 +62,10 @@ public class SimpleGeneratorService implements GeneratorService {
 
         return null;
     }
-    
-    private boolean isExistUrl(String url){
+
+    private boolean isExistUrl(String url) {
         boolean ret = false;
-        
-        shortUrlRepository.
-        
+
         return ret;
     }
 
