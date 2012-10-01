@@ -20,6 +20,8 @@ import com.github.urlchopper.repository.ShortUrlRepository;
 @Repository
 public class JpaShortUrlRepository implements ShortUrlRepository {
 
+    private static final Long SHORT_URL_LIFESPAN = 86400000L;
+
     @PersistenceContext
     private EntityManager entityManager;
 

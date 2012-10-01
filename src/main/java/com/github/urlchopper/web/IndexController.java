@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.urlchopper.domain.ShortUrl;
-import com.github.urlchopper.repository.ShortUrlRepository;
+import com.github.urlchopper.service.GeneratorService;
 
 /**
  * Controller to handle short url requests.
@@ -21,7 +20,7 @@ public class IndexController {
     private static int id;
 
     @Autowired
-    private ShortUrlRepository urlRepository;
+    private GeneratorService generatorService;
 
     /**
      * Controller for index page.
@@ -41,13 +40,7 @@ public class IndexController {
     @RequestMapping("/generateUrl")
     public String generate(@RequestParam String url, RedirectAttributes model) {
 
-        String generatedUrl = generate();
-
-        ShortUrl shortUrl = new ShortUrl();
-        shortUrl.setOriginalUrl(url);
-        shortUrl.setShortUrl(generatedUrl);
-
-        urlRepository.create(shortUrl);
+        String shortUrl = generatorService.generate(url);
 
         model.addFlashAttribute("shortUrl", shortUrl);
         return "redirect:/";
@@ -65,8 +58,8 @@ public class IndexController {
         String retUrl = "";
         try {
             //todo
-            ShortUrl url = urlRepository.findShortUrlsByShortUrlLike(shortUrl).get(0);
-            retUrl = "redirect:" + url.getOriginalUrl();
+            String url = generatorService.findActiveShortUrl(shortUrl);
+            retUrl = "redirect:" + url;
         } catch (Exception e) {
             model.addFlashAttribute("errorMsg", "This URL is not valid!");
             retUrl = "redirect:/index";

@@ -17,7 +17,7 @@ v0.1.2
 <c:if test="${not empty shortUrl }">
 	<form>
 		<h2>Generated URL:</h2>
-		<c:url value="/${shortUrl.shortUrl }" var="redirectUrl" />
-		<a href="${redirectUrl }">http://localhost:8080/urlchopper/${shortUrl.shortUrl }</a>
+		<c:url value="/${shortUrl }" var="redirectUrl" />
+		<a href="${redirectUrl }">http://localhost:8080/urlchopper/${shortUrl }</a>
 	</form>
 </c:if>
