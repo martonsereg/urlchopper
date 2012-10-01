@@ -1,11 +1,12 @@
 <%@ tag language="java" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
-
+ 
 <s:url var="url" value="/resources/" />
 <link href="${url}css/bootstrap.css" rel="stylesheet">
 <link href="${url}css/docs.css" rel="stylesheet">
 <link href="${url}css/bootstrap-responsive.css" rel="stylesheet">
 
+<s:url var="url" value="/resources/" />
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="${url}js/bootstrap-transition.js"></script>
 <script src="${url}js/bootstrap-alert.js"></script>
