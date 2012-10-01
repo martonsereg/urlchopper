@@ -17,8 +17,6 @@ import com.github.urlchopper.service.GeneratorService;
 @Controller
 public class IndexController {
 
-    private static int id;
-
     @Autowired
     private GeneratorService generatorService;
 
@@ -55,7 +53,6 @@ public class IndexController {
     @RequestMapping("/{shortUrl}")
     public String redirect(@PathVariable String shortUrl, RedirectAttributes model) {
 
-        System.out.println(shortUrl);
         String retUrl = "";
         try {
             //todo
@@ -68,8 +65,5 @@ public class IndexController {
 
         return retUrl;
     }
-
-    private String generate() {
-        return "genUrl" + id++;
-    }
 }
+
