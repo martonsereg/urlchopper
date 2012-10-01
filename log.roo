@@ -14,3 +14,4 @@ finder add --finderName findShortUrlsByShortUrlLike
 finder add findShortUrlsByOriginalUrlEquals
 finder add findShortUrlsByOriginalUrlLike
 finder add findShortUrlsByShortUrlEquals
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-10-01 11:53:55
