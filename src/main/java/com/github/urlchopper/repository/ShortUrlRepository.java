@@ -66,17 +66,17 @@ public interface ShortUrlRepository {
     List<ShortUrl> findShortUrlsByOriginalUrlLike(String originalUrl);
 
     /**
-     * Finds ShortUrls by ShortUrl string.
+     * Finds an active, unique ShortUrl by its string representation.
      * @param shortUrl shortUrl
      * @return found ShortUrls
      */
-    List<ShortUrl> findShortUrlsByShortUrlEquals(String shortUrl);
+    ShortUrl findShortUrlByShortUrlEquals(String shortUrl);
 
     /**
      * Finds ShortUrls by ShortUrl string.
      * @param shortUrl shortUrl
      * @return found ShortUrls
      */
-    List<ShortUrl> findShortUrlsByShortUrlLike(String shortUrl);
+    ShortUrl findShortUrlByShortUrlLike(String shortUrl);
 
 }

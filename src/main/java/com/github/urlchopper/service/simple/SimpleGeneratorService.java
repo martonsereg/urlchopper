@@ -8,12 +8,13 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.urlchopper.domain.ShortUrl;
 import com.github.urlchopper.repository.ShortUrlRepository;
 import com.github.urlchopper.service.GeneratorService;
 
+
 /**
  * .
- * @author Marton_Sereg
  *
  */
 @Service
@@ -51,7 +52,7 @@ public class SimpleGeneratorService implements GeneratorService {
         double rnd = Math.random();
         for (int i = 0; i < GENERATED_URL_LENGTH; i++) {
             int index = (int) ((rnd * MULTIPLY) % characters.size());
-            ret  += characters.get(index);
+            ret += characters.get(index);
         }
 
         return ret;
@@ -59,15 +60,13 @@ public class SimpleGeneratorService implements GeneratorService {
 
     @Override
     public String findActiveShortUrl(String shortUrl) {
-
-        return null;
+        ShortUrl url = shortUrlRepository.findShortUrlByShortUrlEquals(shortUrl);
+        return url.getShortUrl();
     }
-    
-    private boolean isExistUrl(String url){
+
+    private boolean isExistUrl(String url) {
         boolean ret = false;
-        
-        shortUrlRepository.
-        
+
         return ret;
     }
 

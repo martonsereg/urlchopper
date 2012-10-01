@@ -1,5 +1,6 @@
 package com.github.urlchopper.repository.jpa;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -125,26 +126,28 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
      * @see com.github.urlchopper.repository.jpa.ShortUrlRepository#findShortUrlsByShortUrlEquals(java.lang.String)
      */
     @Override
-    public List<ShortUrl> findShortUrlsByShortUrlEquals(String shortUrl) {
+    public ShortUrl findShortUrlByShortUrlEquals(String shortUrl) {
         if (shortUrl == null || shortUrl.length() == 0) {
             throw new IllegalArgumentException("The shortUrl argument is required");
         }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE o.shortUrl = :shortUrl", ShortUrl.class);
+        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE o.shortUrl = :shortUrl and o.activeUntil >= :dateNow", ShortUrl.class);
         q.setParameter("shortUrl", shortUrl);
-        return q.getResultList();
+        q.setParameter("dateNow", new Date().getTime());
+        return q.getSingleResult();
     }
 
     /* (non-Javadoc)
      * @see com.github.urlchopper.repository.jpa.ShortUrlRepository#findShortUrlsByShortUrlLike(java.lang.String)
      */
     @Override
-    public List<ShortUrl> findShortUrlsByShortUrlLike(String shortUrl) {
+    public ShortUrl findShortUrlByShortUrlLike(String shortUrl) {
         if (shortUrl == null || shortUrl.length() == 0) {
             throw new IllegalArgumentException("The shortUrl argument is required");
         }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.shortUrl) LIKE LOWER(:shortUrl)",
+        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.shortUrl) LIKE LOWER(:shortUrl) and o.activeUntil >= :dateNow",
                 ShortUrl.class);
         q.setParameter("shortUrl", shortUrl);
-        return q.getResultList();
+        q.setParameter("dateNow", new Date().getTime());
+        return q.getSingleResult();
     }
 }
