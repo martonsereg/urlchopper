@@ -19,5 +19,5 @@ public interface GeneratorService {
      * @param shortUrl short URL
      * @return original url to redirect
      */
-    String findActiveShortUrl(String shortUrl);
+    String findActiveOriginalUrl(String shortUrl);
 }

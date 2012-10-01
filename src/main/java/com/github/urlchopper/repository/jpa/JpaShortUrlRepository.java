@@ -21,8 +21,6 @@ import com.github.urlchopper.repository.ShortUrlRepository;
 @Repository
 public class JpaShortUrlRepository implements ShortUrlRepository {
 
-    private static final Long SHORT_URL_LIFESPAN = 86400000L;
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -130,7 +128,8 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
         if (shortUrl == null || shortUrl.length() == 0) {
             throw new IllegalArgumentException("The shortUrl argument is required");
         }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE o.shortUrl = :shortUrl and o.activeUntil >= :dateNow", ShortUrl.class);
+        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE o.shortUrl = :shortUrl and o.activeUntil >= :dateNow",
+                ShortUrl.class);
         q.setParameter("shortUrl", shortUrl);
         q.setParameter("dateNow", new Date().getTime());
         return q.getSingleResult();
@@ -144,8 +143,8 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
         if (shortUrl == null || shortUrl.length() == 0) {
             throw new IllegalArgumentException("The shortUrl argument is required");
         }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.shortUrl) LIKE LOWER(:shortUrl) and o.activeUntil >= :dateNow",
-                ShortUrl.class);
+        TypedQuery<ShortUrl> q = entityManager.createQuery(
+                "SELECT o FROM ShortUrl AS o WHERE LOWER(o.shortUrl) LIKE LOWER(:shortUrl) and o.activeUntil >= :dateNow", ShortUrl.class);
         q.setParameter("shortUrl", shortUrl);
         q.setParameter("dateNow", new Date().getTime());
         return q.getSingleResult();

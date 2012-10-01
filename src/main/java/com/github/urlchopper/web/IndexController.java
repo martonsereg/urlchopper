@@ -55,14 +55,17 @@ public class IndexController {
     @RequestMapping("/{shortUrl}")
     public String redirect(@PathVariable String shortUrl, RedirectAttributes model) {
 
+        if (shortUrl.equals("")) {
+            System.out.println("pina");
+        }
         String retUrl = "";
         try {
             //todo
-            String url = generatorService.findActiveShortUrl(shortUrl);
+            String url = generatorService.findActiveOriginalUrl(shortUrl);
             retUrl = "redirect:" + url;
         } catch (Exception e) {
             model.addFlashAttribute("errorMsg", "This URL is not valid!");
-            retUrl = "redirect:/index";
+            retUrl = "redirect:/";
         }
 
         return retUrl;
