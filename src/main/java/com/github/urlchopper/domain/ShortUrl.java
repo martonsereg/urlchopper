@@ -9,9 +9,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.beans.factory.annotation.Configurable;
 
-@Configurable
+/** Domain class, represents a short url.
+ * @author Marton_Sereg
+ *
+ */
 @Entity
 public class ShortUrl {
 
@@ -21,56 +23,61 @@ public class ShortUrl {
 
     private Long activeUntil;
 
-	public String getShortUrl() {
-        return this.shortUrl;
-    }
-
-	public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
-    }
-
-	public String getOriginalUrl() {
-        return this.originalUrl;
-    }
-
-	public void setOriginalUrl(String originalUrl) {
-        this.originalUrl = originalUrl;
-    }
-
-	public Long getActiveUntil() {
-        return this.activeUntil;
-    }
-
-	public void setActiveUntil(Long activeUntil) {
-        this.activeUntil = activeUntil;
-    }
-
-	public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
-	@Version
+    @Version
     @Column(name = "version")
     private Integer version;
 
-	public Long getId() {
+    public String getShortUrl() {
+        return this.shortUrl;
+    }
+
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
+    }
+
+    public String getOriginalUrl() {
+        return this.originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
+    }
+
+    public Long getActiveUntil() {
+        return this.activeUntil;
+    }
+
+    public void setActiveUntil(Long activeUntil) {
+        this.activeUntil = activeUntil;
+    }
+
+    public Long getId() {
         return this.id;
     }
 
-	public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-	public Integer getVersion() {
+    public Integer getVersion() {
         return this.version;
     }
 
-	public void setVersion(Integer version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
+
+    /**
+     * ReflectionToString based toString method.
+     * @return String representation of ShortUrl
+     */
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }
+

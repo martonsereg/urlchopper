@@ -2,48 +2,81 @@ package com.github.urlchopper.repository;
 
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import com.github.urlchopper.domain.ShortUrl;
 
+/**
+ * Repository interface, to manage the ShortUrl domain object.
+ * @author Marton_Sereg
+ *
+ */
 public interface ShortUrlRepository {
 
-	public abstract long countShortUrls();
+    /**
+     * Counts existing ShortUrls.
+     * @return count
+     */
+    long countShortUrls();
 
-	public abstract List<ShortUrl> findAllShortUrls();
+    /**
+     * Finds all of the existing ShortUrls.
+     * @return list of ShortUrls.
+     */
+    List<ShortUrl> findAllShortUrls();
 
-	public abstract ShortUrl findShortUrl(Long id);
+    /**
+     * Finds ShortUrl by id.
+     * @param id id of ShortUrl.
+     * @return ShortUrl
+     */
+    ShortUrl findShortUrl(Long id);
 
-	public abstract List<ShortUrl> findShortUrlEntries(int firstResult,
-			int maxResults);
 
-	@Transactional
-	public abstract void persist(ShortUrl shortUrl);
+    /**
+     * Creates a new ShortUrl.
+     * @param shortUrl ShortUrl to be created.
+     */
+    void create(ShortUrl shortUrl);
 
-	@Transactional
-	public abstract void remove(ShortUrl shortUrl);
+    /**
+     * Removes an existing ShortUrl.
+     * @param shortUrl ShortUrl to be removed.
+     */
+    void remove(ShortUrl shortUrl);
 
-	@Transactional
-	public abstract void flush();
 
-	@Transactional
-	public abstract void clear();
+    /**
+     * Updates an existing ShortUrl.
+     * @param shortUrl shortUrl to be updated
+     * @return updated ShortUrl.
+     */
+    ShortUrl update(ShortUrl shortUrl);
 
-	@Transactional
-	public abstract ShortUrl merge(ShortUrl shortUrl);
+    /**
+     * Finds ShortUrls by OriginalUrl.
+     * @param originalUrl originalUrl
+     * @return found ShortUrls
+     */
+    List<ShortUrl> findShortUrlsByOriginalUrlEquals(String originalUrl);
 
-	public abstract TypedQuery<ShortUrl> findShortUrlsByOriginalUrlEquals(
-			String originalUrl);
+    /**
+     * Finds ShortUrls by OriginalUrl.
+     * @param originalUrl originalUrl
+     * @return found ShortUrls
+     */
+    List<ShortUrl> findShortUrlsByOriginalUrlLike(String originalUrl);
 
-	public abstract TypedQuery<ShortUrl> findShortUrlsByOriginalUrlLike(
-			String originalUrl);
+    /**
+     * Finds ShortUrls by ShortUrl string.
+     * @param shortUrl shortUrl
+     * @return found ShortUrls
+     */
+    List<ShortUrl> findShortUrlsByShortUrlEquals(String shortUrl);
 
-	public abstract TypedQuery<ShortUrl> findShortUrlsByShortUrlEquals(
-			String shortUrl);
-
-	public abstract TypedQuery<ShortUrl> findShortUrlsByShortUrlLike(
-			String shortUrl);
+    /**
+     * Finds ShortUrls by ShortUrl string.
+     * @param shortUrl shortUrl
+     * @return found ShortUrls
+     */
+    List<ShortUrl> findShortUrlsByShortUrlLike(String shortUrl);
 
 }
