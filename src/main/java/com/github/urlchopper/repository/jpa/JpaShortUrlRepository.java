@@ -131,7 +131,7 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
         TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE o.shortUrl = :shortUrl and o.activeUntil >= :dateNow",
                 ShortUrl.class);
         q.setParameter("shortUrl", shortUrl);
-        q.setParameter("dateNow", new Date().getTime());
+        q.setParameter("dateNow", new Date().getTime());        
         return q.getSingleResult();
     }
 

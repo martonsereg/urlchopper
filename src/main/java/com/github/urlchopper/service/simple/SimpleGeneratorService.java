@@ -54,26 +54,35 @@ public class SimpleGeneratorService implements GeneratorService {
 
     @Override
     public String generate(String originalUrl) {
+        String generatedShortUrlPostfix = "";
+        generatedShortUrlPostfix = generateUniqueShortUrlPostfix();
+        createShortUrl(originalUrl, generatedShortUrlPostfix);
+        return generatedShortUrlPostfix;
+    }
 
-        String ret = "";
-
-        ret = generateSingleUrl();
-
-        while (isExistUrl(ret)) {
-            ret = generateSingleUrl();
-        }
-
-        ShortUrl url = new ShortUrl();
-        url.setActiveUntil(new Date().getTime() + SHORT_URL_LIFESPAN);
-        url.setOriginalUrl(originalUrl);
-        url.setShortUrl(ret);
-
+    private void createShortUrl(String originalUrl, String generatedShortUrl) {
+        ShortUrl url = new ShortUrl(generatedShortUrl, convertToValidUrl(originalUrl), new Date().getTime() + SHORT_URL_LIFESPAN);
         shortUrlRepository.create(url);
+    }
 
+    private String generateUniqueShortUrlPostfix() {
+        String ret = "";
+        ret = generateShortUrl();
+        while (urlAlreadyExists(ret)) {
+            ret = generateShortUrl();
+        }
         return ret;
     }
 
-    private String generateSingleUrl() {
+    private String convertToValidUrl(String originalUrl) {
+        String ret = originalUrl;
+        if (!originalUrl.startsWith("http://")) {
+            ret = "http://" + originalUrl;
+        }
+        return ret;
+    }
+
+    private String generateShortUrl() {
         String ret = "";
 
         for (int i = 0; i < GENERATED_URL_LENGTH; i++) {
@@ -84,7 +93,7 @@ public class SimpleGeneratorService implements GeneratorService {
         return ret;
     }
 
-    private boolean isExistUrl(String url) {
+    private boolean urlAlreadyExists(String url) {
 
         Boolean ret = true;
         try {
