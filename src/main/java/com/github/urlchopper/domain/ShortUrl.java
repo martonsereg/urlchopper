@@ -17,8 +17,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Entity
 public class ShortUrl {
 
+    private static final int ORIGINAL_URL_MAX_LENGTH = 1000;
+
     private String shortUrl;
 
+    @Column(length = ORIGINAL_URL_MAX_LENGTH)
     private String originalUrl;
 
     private Long activeUntil;
@@ -80,4 +83,3 @@ public class ShortUrl {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }
-

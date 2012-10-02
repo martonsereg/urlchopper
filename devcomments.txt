@@ -2,6 +2,7 @@
 - meddig kell hogy éljen az url?
 - hány karakter legyen?
 - error page-ben kezeljük-e a hibát?
+- input nem valid url (httpURLConnection)
 
 
 angol abc kis és nagybetui + számok (~60^4)
@@ -39,6 +40,6 @@ ha marad ido:
 problémák:
 
 - túl hosszú url-től az adatbázis elszáll
-- input nem valid url (httpURLConnection)
 - properties fájl
+- http:// kiegészítés
 
