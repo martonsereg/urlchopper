@@ -20,9 +20,17 @@ import com.github.urlchopper.service.GeneratorService;
 @Service
 public class SimpleGeneratorService implements GeneratorService {
 
+    private static final int DIGITS_ASCII_END = 57;
+
+    private static final int DIGITS_ASCII_START = 48;
+
+    private static final int LOWER_CASE_ASCII_END = 122;
+
+    private static final int LOWER_CASE_ASCII_START = 97;
+
     private static final int MULTIPLY = 1000;
 
-    private static final Integer GENERATED_URL_LENGTH = 4;
+    private static final Integer GENERATED_URL_LENGTH = 6;
 
     private static final Long SHORT_URL_LIFESPAN = 86400000L;
 
@@ -36,13 +44,10 @@ public class SimpleGeneratorService implements GeneratorService {
      */
     @PostConstruct
     public void createCharacterList() {
-        for (int i = 65; i <= 90; i++) {
+        for (int i = LOWER_CASE_ASCII_START; i <= LOWER_CASE_ASCII_END; i++) {
             characters.add((char) i);
         }
-        for (int i = 97; i <= 122; i++) {
-            characters.add((char) i);
-        }
-        for (int i = 48; i <= 57; i++) {
+        for (int i = DIGITS_ASCII_START; i <= DIGITS_ASCII_END; i++) {
             characters.add((char) i);
         }
     }
