@@ -1,12 +1,19 @@
 package com.github.urlchopper.service.simple;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
 import com.github.urlchopper.domain.ShortUrl;
@@ -30,18 +37,17 @@ public class SimpleGeneratorService implements GeneratorService {
 
     private static final int MULTIPLY = 1000;
 
-    private static final Integer GENERATED_URL_LENGTH = 6;
+    private Integer generateUrlLength;
 
-    private static final Long SHORT_URL_LIFESPAN = 86400000L;
+    private Long shortUrlLifeSpan;
 
     private List<Character> characters = new ArrayList<Character>();
+    
+    private Properties properties;
 
     @Autowired
     private ShortUrlRepository shortUrlRepository;
 
-    /**
-     * todo: constants.
-     */
     @PostConstruct
     public void createCharacterList() {
         for (int i = LOWER_CASE_ASCII_START; i <= LOWER_CASE_ASCII_END; i++) {
@@ -50,11 +56,22 @@ public class SimpleGeneratorService implements GeneratorService {
         for (int i = DIGITS_ASCII_START; i <= DIGITS_ASCII_END; i++) {
             characters.add((char) i);
         }
+        
+        try {
+            
+            properties = PropertiesLoaderUtils.loadAllProperties("config.properties");        
+            
+            generateUrlLength = Integer.valueOf(properties.getProperty("shorturls.generateUrlLength"));
+            shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.lifespan"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public String generate(String originalUrl) {
-
         String ret = "";
 
         ret = generateSingleUrl();
@@ -64,7 +81,7 @@ public class SimpleGeneratorService implements GeneratorService {
         }
 
         ShortUrl url = new ShortUrl();
-        url.setActiveUntil(new Date().getTime() + SHORT_URL_LIFESPAN);
+        url.setActiveUntil(new Date().getTime() + shortUrlLifeSpan);
         url.setOriginalUrl(originalUrl);
         url.setShortUrl(ret);
 
@@ -76,7 +93,7 @@ public class SimpleGeneratorService implements GeneratorService {
     private String generateSingleUrl() {
         String ret = "";
 
-        for (int i = 0; i < GENERATED_URL_LENGTH; i++) {
+        for (int i = 0; i < generateUrlLength; i++) {
             double rnd = Math.random();
             int index = (int) ((rnd * MULTIPLY) % characters.size());
             ret += characters.get(index);
