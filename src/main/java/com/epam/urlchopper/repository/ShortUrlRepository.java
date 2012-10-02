@@ -1,8 +1,8 @@
-package com.github.urlchopper.repository;
+package com.epam.urlchopper.repository;
 
 import java.util.List;
 
-import com.github.urlchopper.domain.ShortUrl;
+import com.epam.urlchopper.domain.ShortUrl;
 
 /**
  * Repository interface, to manage the ShortUrl domain object.

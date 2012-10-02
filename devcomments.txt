@@ -40,8 +40,6 @@ ha marad ido:
 
 problémák:
 
-- properties fájl
-- http:// kiegészítés
 - unit test-ek
 
 

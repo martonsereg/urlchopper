@@ -1,4 +1,4 @@
-package com.github.urlchopper.domain;
+package com.epam.urlchopper.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
