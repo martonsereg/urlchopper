@@ -6,6 +6,14 @@
 <link href="${url}css/docs.css" rel="stylesheet">
 <link href="${url}css/bootstrap-responsive.css" rel="stylesheet">
 
+<style>
+
+	body {
+		
+	}
+
+</style>
+
 <s:url var="url" value="/resources/" />
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="${url}js/bootstrap-transition.js"></script>
