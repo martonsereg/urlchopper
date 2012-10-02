@@ -35,6 +35,21 @@ public class ShortUrl {
     @Column(name = "version")
     private Integer version;
 
+    public ShortUrl() {
+    }
+
+    /**
+     * .
+     * @param shortUrl
+     * @param originalUrl
+     * @param activeUntil
+     */
+    public ShortUrl(String shortUrl, String originalUrl, Long activeUntil) {
+        this.shortUrl = shortUrl;
+        this.originalUrl = originalUrl;
+        this.activeUntil = activeUntil;
+    }
+
     public String getShortUrl() {
         return this.shortUrl;
     }

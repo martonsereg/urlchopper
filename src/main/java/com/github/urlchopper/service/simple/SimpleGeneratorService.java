@@ -1,7 +1,6 @@
 package com.github.urlchopper.service.simple;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,9 +9,6 @@ import java.util.Properties;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
@@ -40,14 +36,17 @@ public class SimpleGeneratorService implements GeneratorService {
     private Integer generateUrlLength;
 
     private Long shortUrlLifeSpan;
-
-    private List<Character> characters = new ArrayList<Character>();
     
     private Properties properties;
+
+    private List<Character> characters = new ArrayList<Character>();
 
     @Autowired
     private ShortUrlRepository shortUrlRepository;
 
+    /**
+     * todo: constants.
+     */
     @PostConstruct
     public void createCharacterList() {
         for (int i = LOWER_CASE_ASCII_START; i <= LOWER_CASE_ASCII_END; i++) {
@@ -57,7 +56,7 @@ public class SimpleGeneratorService implements GeneratorService {
             characters.add((char) i);
         }
         
-        try {
+try {
             
             properties = PropertiesLoaderUtils.loadAllProperties("config.properties");        
             
@@ -72,25 +71,35 @@ public class SimpleGeneratorService implements GeneratorService {
 
     @Override
     public String generate(String originalUrl) {
-        String ret = "";
+        String generatedShortUrlPostfix = "";
+        generatedShortUrlPostfix = generateUniqueShortUrlPostfix();
+        createShortUrl(originalUrl, generatedShortUrlPostfix);
+        return generatedShortUrlPostfix;
+    }
 
-        ret = generateSingleUrl();
-
-        while (isExistUrl(ret)) {
-            ret = generateSingleUrl();
-        }
-
-        ShortUrl url = new ShortUrl();
-        url.setActiveUntil(new Date().getTime() + shortUrlLifeSpan);
-        url.setOriginalUrl(originalUrl);
-        url.setShortUrl(ret);
-
+    private void createShortUrl(String originalUrl, String generatedShortUrl) {
+        ShortUrl url = new ShortUrl(generatedShortUrl, convertToValidUrl(originalUrl), new Date().getTime() + shortUrlLifeSpan);
         shortUrlRepository.create(url);
+    }
 
+    private String generateUniqueShortUrlPostfix() {
+        String ret = "";
+        ret = generateShortUrl();
+        while (urlAlreadyExists(ret)) {
+            ret = generateShortUrl();
+        }
         return ret;
     }
 
-    private String generateSingleUrl() {
+    private String convertToValidUrl(String originalUrl) {
+        String ret = originalUrl;
+        if (!originalUrl.startsWith("http://")) {
+            ret = "http://" + originalUrl;
+        }
+        return ret;
+    }
+
+    private String generateShortUrl() {
         String ret = "";
 
         for (int i = 0; i < generateUrlLength; i++) {
@@ -101,7 +110,7 @@ public class SimpleGeneratorService implements GeneratorService {
         return ret;
     }
 
-    private boolean isExistUrl(String url) {
+    private boolean urlAlreadyExists(String url) {
 
         Boolean ret = true;
         try {

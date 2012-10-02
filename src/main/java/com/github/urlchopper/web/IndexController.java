@@ -55,7 +55,6 @@ public class IndexController {
 
         String retUrl = "";
         try {
-            //todo
             String url = generatorService.findActiveOriginalUrl(shortUrl);
             retUrl = "redirect:" + url;
         } catch (Exception e) {
