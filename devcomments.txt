@@ -33,13 +33,14 @@ felület:
 ha marad ido:
 	- cache megvalósítás (configolható mennyiségu url megorzése cache-ben, nem kell adatb. hozzáférés ha megtalálja)
 	- lehet késobb ujraaktivalni mar nem aktiv url-t (nem kell generálni újat)
-	-ablak, amiben az utolso par db benne van
+	- ablak, amiben az utolso par db benne van
+	- redirect vissza az indexre és error msg-ben a kivételkezelés
 
 
 
 problémák:
 
-- túl hosszú url-től az adatbázis elszáll
 - properties fájl
 - http:// kiegészítés
+
 
