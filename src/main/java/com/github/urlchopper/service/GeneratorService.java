@@ -1,5 +1,9 @@
 package com.github.urlchopper.service;
 
+import java.util.List;
+
+import com.github.urlchopper.domain.ShortUrlDTO;
+
 /**
  * .
  * @author Marton_Sereg
@@ -20,4 +24,11 @@ public interface GeneratorService {
      * @return original url to redirect
      */
     String findActiveOriginalUrl(String shortUrl);
+    
+    /**
+     * Get history.
+     * @param size size of history
+     * @return short URL's history
+     */
+    List<ShortUrlDTO> getLastShortUrlHistory(Integer size);
 }

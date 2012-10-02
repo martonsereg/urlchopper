@@ -13,6 +13,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
 import com.github.urlchopper.domain.ShortUrl;
+import com.github.urlchopper.domain.ShortUrlDTO;
 import com.github.urlchopper.repository.ShortUrlRepository;
 import com.github.urlchopper.service.GeneratorService;
 
@@ -36,7 +37,7 @@ public class SimpleGeneratorService implements GeneratorService {
     private Integer generateUrlLength;
 
     private Long shortUrlLifeSpan;
-    
+
     private Properties properties;
 
     private List<Character> characters = new ArrayList<Character>();
@@ -55,15 +56,15 @@ public class SimpleGeneratorService implements GeneratorService {
         for (int i = DIGITS_ASCII_START; i <= DIGITS_ASCII_END; i++) {
             characters.add((char) i);
         }
-        
-try {
-            
-            properties = PropertiesLoaderUtils.loadAllProperties("config.properties");        
-            
+
+        try {
+
+            properties = PropertiesLoaderUtils.loadAllProperties("config.properties");
+
             generateUrlLength = Integer.valueOf(properties.getProperty("shorturls.generateUrlLength"));
             shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.lifespan"));
         } catch (NumberFormatException e) {
-            e.printStackTrace();        
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,5 +127,24 @@ try {
     public String findActiveOriginalUrl(String shortUrl) {
         ShortUrl url = shortUrlRepository.findShortUrlByShortUrlEquals(shortUrl);
         return url.getOriginalUrl();
+    }
+
+    @Override
+    public List<ShortUrlDTO> getLastShortUrlHistory(Integer size) {
+        List<ShortUrlDTO> ret = new ArrayList<ShortUrlDTO>();
+        List<ShortUrl> list = shortUrlRepository.findAllShortUrls();       
+
+        if (list.size() < size) {
+            size = list.size();
+        }
+
+        for (int i = list.size(); i > list.size() - size; i--) {
+            ShortUrlDTO dto = new ShortUrlDTO();
+            ShortUrl url = list.get(i);
+            dto.setOriginalUrl(url.getOriginalUrl());
+            dto.setShortUrl(url.getShortUrl());
+        }
+
+        return ret;
     }
 }
