@@ -25,11 +25,10 @@ public interface ShortUrlRepository {
 
     /**
      * Finds ShortUrl by id.
-     * @param id id of ShortUrl.
+     * @param shortUrlPostfix id of ShortUrl.
      * @return ShortUrl
      */
-    ShortUrl findShortUrl(Long id);
-
+    ShortUrl findShortUrl(String shortUrlPostfix);
 
     /**
      * Creates a new ShortUrl.
@@ -42,7 +41,6 @@ public interface ShortUrlRepository {
      * @param shortUrl ShortUrl to be removed.
      */
     void remove(ShortUrl shortUrl);
-
 
     /**
      * Updates an existing ShortUrl.
@@ -64,19 +62,5 @@ public interface ShortUrlRepository {
      * @return found ShortUrls
      */
     List<ShortUrl> findShortUrlsByOriginalUrlLike(String originalUrl);
-
-    /**
-     * Finds an active, unique ShortUrl by its string representation.
-     * @param shortUrl shortUrl
-     * @return found ShortUrls
-     */
-    ShortUrl findShortUrlByShortUrlEquals(String shortUrl);
-
-    /**
-     * Finds ShortUrls by ShortUrl string.
-     * @param shortUrl shortUrl
-     * @return found ShortUrls
-     */
-    ShortUrl findShortUrlByShortUrlLike(String shortUrl);
 
 }

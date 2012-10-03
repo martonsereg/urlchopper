@@ -26,8 +26,6 @@ import com.epam.urlchopper.service.GeneratorService;
 @Service
 public class SimpleGeneratorService implements GeneratorService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SimpleGeneratorService.class);
-
     private static final int DIGITS_ASCII_END = 57;
 
     private static final int DIGITS_ASCII_START = 48;
@@ -37,6 +35,8 @@ public class SimpleGeneratorService implements GeneratorService {
     private static final int LOWER_CASE_ASCII_START = 97;
 
     private static final int MULTIPLY = 1000;
+
+    private Logger logger = LoggerFactory.getLogger(SimpleGeneratorService.class);
 
     private Integer generateUrlLength;
 
@@ -68,9 +68,9 @@ public class SimpleGeneratorService implements GeneratorService {
             generateUrlLength = Integer.valueOf(properties.getProperty("shorturls.generateUrlLength"));
             shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.lifespan"));
         } catch (NumberFormatException e) {
-            LOG.info(e.getMessage());
+            logger.info(e.getMessage());
         } catch (IOException e) {
-            LOG.info(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -118,9 +118,8 @@ public class SimpleGeneratorService implements GeneratorService {
     private boolean urlAlreadyExists(String url) {
 
         Boolean ret = true;
-        try {
-            shortUrlRepository.findShortUrlByShortUrlLike(url);
-        } catch (Exception e) {
+
+        if (shortUrlRepository.findShortUrl(url) == null) {
             ret = false;
         }
 
@@ -128,8 +127,8 @@ public class SimpleGeneratorService implements GeneratorService {
     }
 
     @Override
-    public String findActiveOriginalUrl(String shortUrl) {
-        ShortUrl url = shortUrlRepository.findShortUrlByShortUrlEquals(shortUrl);
+    public String findActiveOriginalUrl(String shortUrlPostfix) {
+        ShortUrl url = shortUrlRepository.findShortUrl(shortUrlPostfix);
         return url.getOriginalUrl();
     }
 
@@ -147,7 +146,7 @@ public class SimpleGeneratorService implements GeneratorService {
             ShortUrlDTO dto = new ShortUrlDTO();
             ShortUrl url = list.get(i);
             dto.setOriginalUrl(url.getOriginalUrl());
-            dto.setShortUrl(url.getShortUrl());
+            dto.setShortUrl(url.getShortUrlPostfix());
         }
 
         return ret;

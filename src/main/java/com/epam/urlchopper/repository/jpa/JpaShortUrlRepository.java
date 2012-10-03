@@ -1,6 +1,5 @@
 package com.epam.urlchopper.repository.jpa;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -35,10 +34,10 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
     }
 
     @Override
-    public ShortUrl findShortUrl(Long id) {
+    public ShortUrl findShortUrl(String shortUrlPostfix) {
         ShortUrl ret = null;
-        if (id != null) {
-            ret = entityManager.find(ShortUrl.class, id);
+        if (shortUrlPostfix != null) {
+            ret = entityManager.find(ShortUrl.class, shortUrlPostfix);
         }
         return ret;
     }
@@ -55,7 +54,7 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
         if (entityManager.contains(shortUrl)) {
             entityManager.remove(shortUrl);
         } else {
-            ShortUrl attached = findShortUrl(shortUrl.getId());
+            ShortUrl attached = findShortUrl(shortUrl.getShortUrlPostfix());
             this.entityManager.remove(attached);
         }
     }
@@ -90,33 +89,8 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
         if (safeOriginalUrl.charAt(safeOriginalUrl.length() - 1) != '%') {
             safeOriginalUrl = safeOriginalUrl + "%";
         }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.originalUrl) LIKE LOWER(:originalUrl)",
-                ShortUrl.class);
+        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.originalUrl) LIKE LOWER(:originalUrl)", ShortUrl.class);
         q.setParameter("originalUrl", safeOriginalUrl);
         return q.getResultList();
-    }
-
-    @Override
-    public ShortUrl findShortUrlByShortUrlEquals(String shortUrl) {
-        if (shortUrl == null || shortUrl.length() == 0) {
-            throw new IllegalArgumentException("The shortUrl argument is required");
-        }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE o.shortUrl = :shortUrl and o.activeUntil >= :dateNow",
-                ShortUrl.class);
-        q.setParameter("shortUrl", shortUrl);
-        q.setParameter("dateNow", new Date().getTime());
-        return q.getSingleResult();
-    }
-
-    @Override
-    public ShortUrl findShortUrlByShortUrlLike(String shortUrl) {
-        if (shortUrl == null || shortUrl.length() == 0) {
-            throw new IllegalArgumentException("The shortUrl argument is required");
-        }
-        TypedQuery<ShortUrl> q = entityManager.createQuery(
-                "SELECT o FROM ShortUrl AS o WHERE LOWER(o.shortUrl) LIKE LOWER(:shortUrl) and o.activeUntil >= :dateNow", ShortUrl.class);
-        q.setParameter("shortUrl", shortUrl);
-        q.setParameter("dateNow", new Date().getTime());
-        return q.getSingleResult();
     }
 }
