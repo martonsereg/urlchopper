@@ -5,5 +5,5 @@
 <meta http-equiv="REFRESH" content="5;url=${url }">
 </head>
 <center>
-<div class="alert alert-block">You will redirected to the follow URL: ${url}</div>
+<div class="alert alert-block">You will be redirected to the following URL: ${url}</div>
 </center>
