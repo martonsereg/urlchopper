@@ -43,4 +43,8 @@ public class User {
         this.shortUrls = shortUrls;
     }
 
+    public void addShortUrl(ShortUrl shortUrl) {
+        shortUrls.add(shortUrl);
+    }
+
 }

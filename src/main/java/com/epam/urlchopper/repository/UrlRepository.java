@@ -34,14 +34,15 @@ public interface UrlRepository {
     /**
      * Creates a new ShortUrl.
      * @param url ShortUrl to be created.
+     * @return
      */
-    void createShortUrl(ShortUrl url);
+    ShortUrl createShortUrl(ShortUrl url);
 
     /**
      * Creates a new ShortUrl.
      * @param url OriginalUrl to be created.
      */
-    void createOriginalUrl(OriginalUrl url);
+    OriginalUrl createOriginalUrl(OriginalUrl url);
 
     /**
      * merge a new ShortUrl with exist URL.

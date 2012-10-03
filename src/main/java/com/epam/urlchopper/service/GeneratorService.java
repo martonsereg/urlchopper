@@ -1,6 +1,5 @@
 package com.epam.urlchopper.service;
 
-
 /**
  * .
  * @author Marton_Sereg
@@ -13,7 +12,7 @@ public interface GeneratorService {
      * @param originalUrl original URL
      * @return unique shortUrl
      */
-    String generate(String originalUrl);
+    String generate(String originalUrl, Long userId);
 
     /**
      * .
@@ -21,4 +20,5 @@ public interface GeneratorService {
      * @return original url to redirect
      */
     String findOriginalUrl(String url);
+
 }
