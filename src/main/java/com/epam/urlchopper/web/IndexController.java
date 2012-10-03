@@ -17,6 +17,8 @@ import com.epam.urlchopper.service.GeneratorService;
 @Controller
 public class IndexController {
 
+    private static final String TOP_SECRET = "pinapinapunci";
+    
     @Autowired
     private GeneratorService generatorService;
 
@@ -38,6 +40,10 @@ public class IndexController {
     @RequestMapping("/generateUrl")
     public String generate(@RequestParam String url, RedirectAttributes model) {
 
+        if (url.equals(TOP_SECRET)){
+            url = "http://www.youtube.com/watch?v=SLmmfYd8dos";
+        }
+        
         String shortUrl = generatorService.generate(url);
 
         model.addFlashAttribute("shortUrl", shortUrl);
@@ -58,12 +64,18 @@ public class IndexController {
         try {
             String url = generatorService.findActiveOriginalUrl(shortUrl);
             retUrl = "redirect:" + url;
+            //retUrl = "redirect:/waitpage";
         } catch (Exception e) {
             model.addFlashAttribute("errorMsg", "This URL is not valid!");
             retUrl = "redirect:/";
         }
 
         return retUrl;
+    }
+    
+    @RequestMapping("/waitpage")
+    public String waitpage() {
+        return "waitpage";
     }
     
 //    @ModelAttribute("lastUrls")

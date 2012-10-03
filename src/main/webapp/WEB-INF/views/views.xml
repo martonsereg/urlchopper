@@ -8,6 +8,10 @@
   <definition name="index" extends="default">
     <put-attribute name="body" value="/WEB-INF/views/index.jsp" />
   </definition>
+  
+  <definition name="waitpage" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/waitpage.jsp" />
+  </definition>
 
   <definition name="error/dataAccessFailure" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jspx" />
