@@ -178,7 +178,7 @@ public class SimpleGeneratorService implements GeneratorService {
     }
 
     @Override
-    public String findOriginalUrl(String url) {
+    public String findOriginalUrl(String url) {       
         return urlRepository.findOriginalUrl(url).getUrl();
     }
 }

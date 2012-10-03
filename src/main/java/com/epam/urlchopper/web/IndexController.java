@@ -76,7 +76,6 @@ public class IndexController {
         String retUrl = "";
         try {
             String url = generatorService.findOriginalUrl(shortUrl);
-            //retUrl = "redirect:" + url;
             model.addFlashAttribute("url", url);
             retUrl = "redirect:/waitpage";
         } catch (Exception e) {

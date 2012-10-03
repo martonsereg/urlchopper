@@ -105,7 +105,7 @@ public class JpaUrlRepository implements UrlRepository {
 
     @Override
     public OriginalUrl findOriginalUrl(String url) {
-        return entityManager.find(OriginalUrl.class, url);
+        return entityManager.find(ShortUrl.class, url).getOriginalUrl();
     }
 
     @Override
