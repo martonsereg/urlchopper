@@ -1,4 +1,4 @@
-package com.epam.urlchopper.aop;
+package com.epam.urlchopper.aop.timer;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class DatabaseFinderTimerAspect {
 
+    private Logger logger = LoggerFactory.getLogger(DatabaseFinderTimerAspect.class);
+
     /**
      * measures execution time.
      * @param joinPoint
@@ -22,7 +24,6 @@ public class DatabaseFinderTimerAspect {
      */
     @Around("finderMethods()")
     public Object measureExecution(ProceedingJoinPoint joinPoint) {
-        Logger logger = LoggerFactory.getLogger(DatabaseFinderTimerAspect.class);
         Object ret = null;
         try {
             long start = System.currentTimeMillis();
