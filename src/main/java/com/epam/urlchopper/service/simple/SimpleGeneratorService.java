@@ -8,6 +8,8 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import com.epam.urlchopper.service.GeneratorService;
  */
 @Service
 public class SimpleGeneratorService implements GeneratorService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleGeneratorService.class);
 
     private static final int DIGITS_ASCII_END = 57;
 
@@ -46,7 +50,7 @@ public class SimpleGeneratorService implements GeneratorService {
     private ShortUrlRepository shortUrlRepository;
 
     /**
-     * todo: constants.
+     * The characters are initialized.
      */
     @PostConstruct
     public void createCharacterList() {
@@ -64,9 +68,9 @@ public class SimpleGeneratorService implements GeneratorService {
             generateUrlLength = Integer.valueOf(properties.getProperty("shorturls.generateUrlLength"));
             shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.lifespan"));
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            LOG.info(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.info(e.getMessage());
         }
     }
 
@@ -132,13 +136,14 @@ public class SimpleGeneratorService implements GeneratorService {
     @Override
     public List<ShortUrlDTO> getLastShortUrlHistory(Integer size) {
         List<ShortUrlDTO> ret = new ArrayList<ShortUrlDTO>();
-        List<ShortUrl> list = shortUrlRepository.findAllShortUrls();       
+        List<ShortUrl> list = shortUrlRepository.findAllShortUrls();
 
+        Integer historySize = size;
         if (list.size() < size) {
-            size = list.size();
+            historySize = list.size();
         }
 
-        for (int i = list.size(); i > list.size() - size; i--) {
+        for (int i = list.size(); i > list.size() - historySize; i--) {
             ShortUrlDTO dto = new ShortUrlDTO();
             ShortUrl url = list.get(i);
             dto.setOriginalUrl(url.getOriginalUrl());

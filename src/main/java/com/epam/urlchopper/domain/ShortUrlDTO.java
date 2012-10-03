@@ -1,5 +1,10 @@
 package com.epam.urlchopper.domain;
 
+/**
+ * Data Transfer Object. Transfer the short URL and Original URL only.
+ * @author Gergely_Topolyai
+ *
+ */
 public class ShortUrlDTO {
 
     private String originalUrl;
