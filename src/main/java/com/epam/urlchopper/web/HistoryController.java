@@ -17,6 +17,7 @@ public class HistoryController {
      */
     @RequestMapping("/myUrls")
     public String myUrls() {
+
         return "myUrls";
     }
 
