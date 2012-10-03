@@ -17,8 +17,8 @@
     </encoder>
   </appender>
 
-  <logger name="com.github.urlchopper" level="INFO">
-<!--     <appender-ref ref="FILE"/> -->
+  <logger name="com.epam.urlchopper" level="INFO">
+     <appender-ref ref="STDOUT"/>
   </logger>
     
   <root level="INFO">
