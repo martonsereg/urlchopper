@@ -87,6 +87,6 @@ public interface UrlRepository {
      * Refresh the lifespan.
      * @param shortUrl originalUrl
      */
-    void activateShortUrl(ShortUrl shortUrl, Long lifespanEnd);
+    void lengthenLifespan(ShortUrl shortUrl, Long lifespanEnd);
 
 }

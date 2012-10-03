@@ -27,6 +27,10 @@ import com.epam.urlchopper.service.GeneratorService;
 @Service
 public class SimpleGeneratorService implements GeneratorService {
 
+    private static final long DEFAULT_LIFESPAN = 86400000L;
+
+    private static final int DEFAULT_SHORTURL_LENGTH = 6;
+
     private static final int DIGITS_ASCII_END = 57;
 
     private static final int DIGITS_ASCII_START = 48;
@@ -39,9 +43,9 @@ public class SimpleGeneratorService implements GeneratorService {
 
     private Logger logger = LoggerFactory.getLogger(SimpleGeneratorService.class);
 
-    private Integer generateUrlLength;
+    private Integer generateUrlLength = DEFAULT_SHORTURL_LENGTH;
 
-    private Long shortUrlLifeSpan;
+    private Long shortUrlLifeSpan = DEFAULT_LIFESPAN;
 
     private Properties properties;
 
@@ -54,60 +58,56 @@ public class SimpleGeneratorService implements GeneratorService {
      * The characters are initialized.
      */
     @PostConstruct
-    public void createCharacterList() {
+    private void createCharacterList() {
         for (int i = LOWER_CASE_ASCII_START; i <= LOWER_CASE_ASCII_END; i++) {
             characters.add((char) i);
         }
         for (int i = DIGITS_ASCII_START; i <= DIGITS_ASCII_END; i++) {
             characters.add((char) i);
         }
+    }
 
+    @PostConstruct
+    private void loadProperties() {
         try {
-
             properties = PropertiesLoaderUtils.loadAllProperties("config.properties");
-
             generateUrlLength = Integer.valueOf(properties.getProperty("shorturls.generateUrlLength"));
             shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.lifespan"));
         } catch (NumberFormatException e) {
-            logger.info(e.getMessage());
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            logger.info(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
     @Override
-    public String generate(String originalUrl) {
+    public String generate(String requestedOriginalUrl) {
         String generatedShortUrlPostfix = "";
-        logger.info("start");
-        OriginalUrl existUrl = urlRepository.findOriginalUrl(convertToValidUrl(originalUrl));
-        if (originalUrlIsExistWithShortUrl(existUrl)) {
-            existUrl.increaseReferenceCount();
-            generatedShortUrlPostfix = existUrl.getShortUrl().getShortUrlPostfix();
-            urlRepository.activateShortUrl(existUrl.getShortUrl(), calculateLifeSpanEnd());
-            logger.info(":" + existUrl.getReferenceCount());
-            urlRepository.mergeOriginalUrl(existUrl);
-        } else if (originalUrlIsExistWithoutShortUrl(existUrl)) {
+        OriginalUrl originalUrl = urlRepository.findOriginalUrl(convertToValidUrl(requestedOriginalUrl));
+        if (shortUrlExistsForOriginal(originalUrl)) {
+            originalUrl.increaseReferenceCount();
+            generatedShortUrlPostfix = originalUrl.getShortUrl().getShortUrlPostfix();
+            urlRepository.lengthenLifespan(originalUrl.getShortUrl(), calculateLifeSpanEnd());
+            logger.info(":" + originalUrl.getReferenceCount());
+            urlRepository.mergeOriginalUrl(originalUrl);
+        } else if (originalUrlIsExistWithoutShortUrl(originalUrl)) {
             logger.info("exist without");
-            existUrl.increaseReferenceCount();
+            originalUrl.increaseReferenceCount();
             generatedShortUrlPostfix = generateUniqueShortUrlPostfix();
-            urlRepository.mergeOriginalUrl(existUrl);
-            createShortUrl(existUrl, generatedShortUrlPostfix);
+            urlRepository.mergeOriginalUrl(originalUrl);
+            createShortUrl(originalUrl, generatedShortUrlPostfix);
         } else {
             generatedShortUrlPostfix = generateUniqueShortUrlPostfix();
-            createOriginalUrl(originalUrl);
-            createShortUrl(originalUrl, generatedShortUrlPostfix);
+            createOriginalUrl(requestedOriginalUrl);
+            createShortUrl(requestedOriginalUrl, generatedShortUrlPostfix);
 
         }
-        logger.info("finsih: " + generatedShortUrlPostfix);
+        logger.info("finish: " + generatedShortUrlPostfix);
         return generatedShortUrlPostfix;
     }
 
-    private boolean originalUrlIsExistWithShortUrl(OriginalUrl existUrl) {
-        if (existUrl == null) {
-            logger.info("pina");
-        }
-
-        return existUrl != null && existUrl.getShortUrl() != null;
+    private boolean shortUrlExistsForOriginal(OriginalUrl originalUrl) {
+        return originalUrl != null && originalUrl.getShortUrl() != null;
     }
 
     private boolean originalUrlIsExistWithoutShortUrl(OriginalUrl existUrl) {

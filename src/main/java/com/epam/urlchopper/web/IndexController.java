@@ -81,17 +81,11 @@ public class IndexController {
     }
 
     /**
-     * When send redirect for the original URL, this controller show a wait page.
+     * Before redirected to the original URL, a wait page is shown for a few seconds.
      * @return view page
      */
     @RequestMapping("/waitpage")
     public String waitpage() {
         return "waitpage";
     }
-
-    //    @ModelAttribute("lastUrls")
-    //    public List<ShortUrlDTO> lastUrls(){
-    //        List<ShortUrlDTO> l = generatorService.getLastShortUrlHistory(10);
-    //        return generatorService.getLastShortUrlHistory(10);
-    //    }
 }

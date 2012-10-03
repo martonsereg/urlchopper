@@ -116,7 +116,7 @@ public class JpaUrlRepository implements UrlRepository {
 
     @Override
     @Transactional
-    public void activateShortUrl(ShortUrl shortUrl, Long lifespanEnd) {
+    public void lengthenLifespan(ShortUrl shortUrl, Long lifespanEnd) {
         shortUrl.setActiveUntil(lifespanEnd);
         entityManager.merge(shortUrl);
 
