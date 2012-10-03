@@ -31,11 +31,13 @@ public class SimpleHistoryService implements HistoryService {
         User user = userRepository.findUser(userId);
         List<ShortUrlDTO> retUrls = new ArrayList<ShortUrlDTO>();
 
-        for (ShortUrl shorturl : user.getShortUrls()) {
-            ShortUrlDTO dto = new ShortUrlDTO();
-            dto.setOriginalUrl(shorturl.getOriginalUrl().getUrl());
-            dto.setShortUrl(shorturl.getShortUrlPostfix());
-            retUrls.add(dto);
+        if (user != null) {
+            for (ShortUrl shorturl : user.getShortUrls()) {
+                ShortUrlDTO dto = new ShortUrlDTO();
+                dto.setOriginalUrl(shorturl.getOriginalUrl().getUrl());
+                dto.setShortUrl(shorturl.getShortUrlPostfix());
+                retUrls.add(dto);
+            }
         }
         return retUrls;
     }
@@ -63,6 +65,14 @@ public class SimpleHistoryService implements HistoryService {
         }
 
         return ret;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void setUrlRepository(UrlRepository urlRepository) {
+        this.urlRepository = urlRepository;
     }
 
 }
