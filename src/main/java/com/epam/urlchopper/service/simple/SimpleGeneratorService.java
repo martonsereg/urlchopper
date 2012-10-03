@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.epam.urlchopper.domain.OriginalUrl;
 import com.epam.urlchopper.domain.ShortUrl;
-import com.epam.urlchopper.domain.ShortUrlDTO;
 import com.epam.urlchopper.repository.UrlRepository;
 import com.epam.urlchopper.service.GeneratorService;
 
@@ -88,10 +87,8 @@ public class SimpleGeneratorService implements GeneratorService {
             originalUrl.increaseReferenceCount();
             generatedShortUrlPostfix = originalUrl.getShortUrl().getShortUrlPostfix();
             urlRepository.lengthenLifespan(originalUrl.getShortUrl(), calculateLifeSpanEnd());
-            logger.info(":" + originalUrl.getReferenceCount());
             urlRepository.mergeOriginalUrl(originalUrl);
         } else if (originalUrlIsExistWithoutShortUrl(originalUrl)) {
-            logger.info("exist without");
             originalUrl.increaseReferenceCount();
             generatedShortUrlPostfix = generateUniqueShortUrlPostfix();
             urlRepository.mergeOriginalUrl(originalUrl);
@@ -102,7 +99,6 @@ public class SimpleGeneratorService implements GeneratorService {
             createShortUrl(requestedOriginalUrl, generatedShortUrlPostfix);
 
         }
-        logger.info("finish: " + generatedShortUrlPostfix);
         return generatedShortUrlPostfix;
     }
 
@@ -176,25 +172,4 @@ public class SimpleGeneratorService implements GeneratorService {
     public String findOriginalUrl(String url) {
         return urlRepository.findOriginalUrl(url).getUrl();
     }
-
-    @Override
-    public List<ShortUrlDTO> getLastShortUrlHistory(Integer size) {
-        List<ShortUrlDTO> ret = new ArrayList<ShortUrlDTO>();
-        List<ShortUrl> list = urlRepository.findAllShortUrls();
-
-        Integer historySize = size;
-        if (list.size() < size) {
-            historySize = list.size();
-        }
-
-        for (int i = list.size(); i > list.size() - historySize; i--) {
-            ShortUrlDTO dto = new ShortUrlDTO();
-            ShortUrl url = list.get(i);
-            dto.setOriginalUrl(url.getOriginalUrl().getUrl());
-            dto.setShortUrl(url.getShortUrlPostfix());
-        }
-
-        return ret;
-    }
-
 }

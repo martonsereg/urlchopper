@@ -1,6 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 v0.1.7
+
+<c:forEach items="${cookie}" var="nextCookie">
+    <li>${nextCookie.key} = ${nextCookie.value}
+</c:forEach>
+
+
 <center>
 	<c:if test="${not empty errorMsg }">
 		<div class="alert alert-error">${errorMsg }</div>
