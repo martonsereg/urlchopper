@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
+import com.epam.urlchopper.domain.OriginalUrl;
 import com.epam.urlchopper.domain.ShortUrl;
 import com.epam.urlchopper.domain.ShortUrlDTO;
 import com.epam.urlchopper.repository.ShortUrlRepository;
@@ -83,7 +84,8 @@ public class SimpleGeneratorService implements GeneratorService {
     }
 
     private void createShortUrl(String originalUrl, String generatedShortUrl) {
-        ShortUrl url = new ShortUrl(generatedShortUrl, convertToValidUrl(originalUrl), new Date().getTime() + shortUrlLifeSpan);
+        OriginalUrl tmp = new OriginalUrl(convertToValidUrl(originalUrl), 1);
+        ShortUrl url = new ShortUrl(generatedShortUrl, tmp, new Date().getTime() + shortUrlLifeSpan);
         shortUrlRepository.create(url);
     }
 
@@ -129,7 +131,7 @@ public class SimpleGeneratorService implements GeneratorService {
     @Override
     public String findActiveOriginalUrl(String shortUrlPostfix) {
         ShortUrl url = shortUrlRepository.findShortUrl(shortUrlPostfix);
-        return url.getOriginalUrl();
+        return url.getOriginalUrl().getUrl();
     }
 
     @Override
@@ -145,7 +147,7 @@ public class SimpleGeneratorService implements GeneratorService {
         for (int i = list.size(); i > list.size() - historySize; i--) {
             ShortUrlDTO dto = new ShortUrlDTO();
             ShortUrl url = list.get(i);
-            dto.setOriginalUrl(url.getOriginalUrl());
+            dto.setOriginalUrl(url.getOriginalUrl().getUrl());
             dto.setShortUrl(url.getShortUrlPostfix());
         }
 

@@ -45,6 +45,7 @@ public class JpaShortUrlRepository implements ShortUrlRepository {
     @Override
     @Transactional
     public void create(ShortUrl shortUrl) {
+        entityManager.persist(shortUrl.getOriginalUrl());
         entityManager.persist(shortUrl);
     }
 
