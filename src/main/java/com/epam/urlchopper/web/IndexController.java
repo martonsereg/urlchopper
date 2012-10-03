@@ -63,8 +63,9 @@ public class IndexController {
         String retUrl = "";
         try {
             String url = generatorService.findActiveOriginalUrl(shortUrl);
-            retUrl = "redirect:" + url;
-            //retUrl = "redirect:/waitpage";
+            //retUrl = "redirect:" + url;
+            model.addFlashAttribute("url", url);            
+            retUrl = "redirect:/waitpage";
         } catch (Exception e) {
             model.addFlashAttribute("errorMsg", "This URL is not valid!");
             retUrl = "redirect:/";

@@ -1,9 +1,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/util" prefix="util" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-v0.1.0
-You have redirected to: 
+<head>
+<meta http-equiv="REFRESH" content="3;url=${url }">
+</head>
 
-<c:set value="/" var="redirectUrl" />
-
-<util:waitAndRedirect url="${redirectUrl }" delayTime="1000" />
+You will redirected to the follow URL: ${url}
