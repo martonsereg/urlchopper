@@ -12,6 +12,14 @@
   <definition name="waitpage" extends="default">
     <put-attribute name="body" value="/WEB-INF/views/waitpage.jsp" />
   </definition>
+  
+  <definition name="myUrls" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/myUrls.jsp" />
+  </definition>
+  
+  <definition name="allUrls" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/allUrls.jsp" />
+  </definition>
 
   <definition name="error/dataAccessFailure" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jspx" />
