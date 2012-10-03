@@ -1,5 +1,8 @@
 package com.epam.urlchopper.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,7 @@ public class IndexController {
      * @return tiles name.
      */
     @RequestMapping("/")
-    public String index() {
+    public String index(HttpServletRequest request, HttpServletResponse response) {
         return "index";
     }
 

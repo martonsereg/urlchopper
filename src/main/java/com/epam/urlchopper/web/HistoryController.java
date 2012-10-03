@@ -1,5 +1,8 @@
 package com.epam.urlchopper.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,7 +19,7 @@ public class HistoryController {
      * @return view page
      */
     @RequestMapping("/myUrls")
-    public String myUrls() {
+    public String myUrls(HttpServletRequest request, HttpServletResponse response) {
         return "myUrls";
     }
 
@@ -25,7 +28,7 @@ public class HistoryController {
      * @return view page
      */
     @RequestMapping("/allUrls")
-    public String allUrls() {
+    public String allUrls(HttpServletRequest request, HttpServletResponse response) {
         return "allUrls";
     }
 }

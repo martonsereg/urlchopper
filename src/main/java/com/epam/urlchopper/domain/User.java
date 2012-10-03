@@ -27,6 +27,10 @@ public class User {
         return userId;
     }
 
+    public String getUserIdAsString() {
+        return userId.toString();
+    }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }

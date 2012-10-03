@@ -20,8 +20,9 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     @Transactional
-    public void create(User user) {
+    public User create(User user) {
         entityManager.persist(user);
+        return user;
     }
 
     @Override
