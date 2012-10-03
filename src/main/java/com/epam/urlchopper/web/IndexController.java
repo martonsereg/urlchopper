@@ -1,5 +1,8 @@
 package com.epam.urlchopper.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.epam.urlchopper.service.CookieService;
 import com.epam.urlchopper.service.GeneratorService;
 
 /**
@@ -26,12 +30,15 @@ public class IndexController {
     @Autowired
     private GeneratorService generatorService;
 
+    @Autowired
+    private CookieService cookieService;
+
     /**
      * Controller for index page.
      * @return tiles name.
      */
     @RequestMapping("/")
-    public String index() {
+    public String index(HttpServletRequest request, HttpServletResponse response) {
         return "index";
     }
 
@@ -42,7 +49,7 @@ public class IndexController {
      * @return tiles name
      */
     @RequestMapping("/generateUrl")
-    public String generate(@RequestParam String url, RedirectAttributes model) {
+    public String generate(@RequestParam String url, HttpServletRequest request, HttpServletResponse response, RedirectAttributes model) {
 
         LOG.debug("start");
 
@@ -51,7 +58,7 @@ public class IndexController {
             nUrl = TOP_SECRET_URL;
         }
 
-        String shortUrl = generatorService.generate(nUrl);
+        String shortUrl = generatorService.generate(nUrl, cookieService.getUserId(request.getCookies()));
 
         model.addFlashAttribute("shortUrl", shortUrl);
         return "redirect:/";

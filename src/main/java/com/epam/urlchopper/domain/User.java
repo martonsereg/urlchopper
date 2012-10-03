@@ -27,6 +27,10 @@ public class User {
         return userId;
     }
 
+    public String getUserIdAsString() {
+        return userId.toString();
+    }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -37,6 +41,10 @@ public class User {
 
     public void setShortUrls(List<ShortUrl> shortUrls) {
         this.shortUrls = shortUrls;
+    }
+
+    public void addShortUrl(ShortUrl shortUrl) {
+        shortUrls.add(shortUrl);
     }
 
 }
