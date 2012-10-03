@@ -2,8 +2,6 @@ package com.epam.urlchopper.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
@@ -19,22 +17,21 @@ public class ShortUrl {
 
     private static final int ORIGINAL_URL_MAX_LENGTH = 1000;
 
-    private String shortUrl;
+    @Id
+    private String shortUrlPostfix;
 
     @Column(length = ORIGINAL_URL_MAX_LENGTH)
     private String originalUrl;
 
     private Long activeUntil;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
-
     @Version
     @Column(name = "version")
     private Integer version;
 
+    /**
+     * Needed by JPA.
+     */
     public ShortUrl() {
     }
 
@@ -45,17 +42,17 @@ public class ShortUrl {
      * @param activeUntil
      */
     public ShortUrl(String shortUrl, String originalUrl, Long activeUntil) {
-        this.shortUrl = shortUrl;
+        this.shortUrlPostfix = shortUrl;
         this.originalUrl = originalUrl;
         this.activeUntil = activeUntil;
     }
 
-    public String getShortUrl() {
-        return this.shortUrl;
+    public String getShortUrlPostfix() {
+        return shortUrlPostfix;
     }
 
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public void setShortUrlPostfix(String shortUrlPostfix) {
+        this.shortUrlPostfix = shortUrlPostfix;
     }
 
     public String getOriginalUrl() {
@@ -72,14 +69,6 @@ public class ShortUrl {
 
     public void setActiveUntil(Long activeUntil) {
         this.activeUntil = activeUntil;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getVersion() {
