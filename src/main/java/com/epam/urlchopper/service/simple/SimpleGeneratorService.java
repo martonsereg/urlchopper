@@ -178,7 +178,13 @@ public class SimpleGeneratorService implements GeneratorService {
     }
 
     @Override
-    public String findOriginalUrl(String url) {       
+    public String findOriginalUrl(String url) {
         return urlRepository.findOriginalUrl(url).getUrl();
+    }
+
+    @Override
+    public String findOriginalUrlByShortUrl(String url) {
+        OriginalUrl origUrl = urlRepository.findShortUrl(url).getOriginalUrl();
+        return origUrl.getUrl();
     }
 }
