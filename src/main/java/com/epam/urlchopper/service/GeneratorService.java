@@ -19,16 +19,16 @@ public interface GeneratorService {
     String generate(String originalUrl);
 
     /**
-     * .
-     * @param shortUrl short URL
-     * @return original url to redirect
-     */
-    String findActiveOriginalUrl(String shortUrl);
-
-    /**
      * Get history.
      * @param size size of history
      * @return short URL's history
      */
     List<ShortUrlDTO> getLastShortUrlHistory(Integer size);
+
+    /**
+     * .
+     * @param shortUrl short URL
+     * @return original url to redirect
+     */
+    String findOriginalUrl(String url);
 }

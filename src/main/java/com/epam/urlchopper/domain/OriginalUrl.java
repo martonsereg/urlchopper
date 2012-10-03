@@ -49,4 +49,20 @@ public class OriginalUrl {
         this.referenceCount = referenceCount;
     }
 
+    public ShortUrl getShortUrl() {
+        return shortUrl;
+    }
+
+    public void setShortUrl(ShortUrl shortUrl) {
+        this.shortUrl = shortUrl;
+    }
+
+    /**
+     * Increase reference count.
+     */
+    public void increaseReferenceCount() {
+        referenceCount++;
+
+    }
+
 }
