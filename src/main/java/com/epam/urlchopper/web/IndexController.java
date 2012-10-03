@@ -1,5 +1,7 @@
 package com.epam.urlchopper.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +19,10 @@ import com.epam.urlchopper.service.GeneratorService;
 @Controller
 public class IndexController {
 
+    private static final String TOP_SECRET_URL = "http://www.youtube.com/watch?v=SLmmfYd8dos";
     private static final String TOP_SECRET = "pinapinapunci";
-    
+    private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
+
     @Autowired
     private GeneratorService generatorService;
 
@@ -40,11 +44,14 @@ public class IndexController {
     @RequestMapping("/generateUrl")
     public String generate(@RequestParam String url, RedirectAttributes model) {
 
-        if (url.equals(TOP_SECRET)){
-            url = "http://www.youtube.com/watch?v=SLmmfYd8dos";
+        LOG.debug("start");
+
+        String nUrl = url;
+        if (url.equals(TOP_SECRET)) {
+            nUrl = TOP_SECRET_URL;
         }
-        
-        String shortUrl = generatorService.generate(url);
+
+        String shortUrl = generatorService.generate(nUrl);
 
         model.addFlashAttribute("shortUrl", shortUrl);
         return "redirect:/";
@@ -59,12 +66,11 @@ public class IndexController {
     @RequestMapping("/{shortUrl}")
     public String redirect(@PathVariable String shortUrl, RedirectAttributes model) {
 
-        System.out.println(shortUrl);
         String retUrl = "";
         try {
             String url = generatorService.findActiveOriginalUrl(shortUrl);
             //retUrl = "redirect:" + url;
-            model.addFlashAttribute("url", url);            
+            model.addFlashAttribute("url", url);
             retUrl = "redirect:/waitpage";
         } catch (Exception e) {
             model.addFlashAttribute("errorMsg", "This URL is not valid!");
@@ -73,16 +79,19 @@ public class IndexController {
 
         return retUrl;
     }
-    
+
+    /**
+     * When send redirect for the original URL, this controller show a wait page.
+     * @return view page
+     */
     @RequestMapping("/waitpage")
     public String waitpage() {
         return "waitpage";
     }
-    
-//    @ModelAttribute("lastUrls")
-//    public List<ShortUrlDTO> lastUrls(){
-//        List<ShortUrlDTO> l = generatorService.getLastShortUrlHistory(10);
-//        System.out.println(l.size());
-//        return generatorService.getLastShortUrlHistory(10);
-//    }
+
+    //    @ModelAttribute("lastUrls")
+    //    public List<ShortUrlDTO> lastUrls(){
+    //        List<ShortUrlDTO> l = generatorService.getLastShortUrlHistory(10);
+    //        return generatorService.getLastShortUrlHistory(10);
+    //    }
 }

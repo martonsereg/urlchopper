@@ -12,7 +12,7 @@ import com.epam.urlchopper.domain.ShortUrlDTO;
 public interface GeneratorService {
 
     /**
-     * .
+     * Generate a unique short URL for an exist URL.
      * @param originalUrl original URL
      * @return unique shortUrl
      */
@@ -24,7 +24,7 @@ public interface GeneratorService {
      * @return original url to redirect
      */
     String findActiveOriginalUrl(String shortUrl);
-    
+
     /**
      * Get history.
      * @param size size of history
