@@ -21,4 +21,11 @@ public interface GeneratorService {
      */
     String findOriginalUrl(String url);
 
+    /**
+     * .
+     * @param url short URL
+     * @return original url to redirect
+     */
+    String findOriginalUrlByShortUrl(String url);
+
 }
