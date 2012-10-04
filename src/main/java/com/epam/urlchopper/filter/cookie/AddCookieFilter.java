@@ -14,30 +14,30 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.urlchopper.domain.User;
 import com.epam.urlchopper.repository.UserRepository;
 
 /**
+ * .
  * Servlet Filter implementation class AddCookieFilter
  */
-@Component
+@Component("AddCookieFilter")
 public class AddCookieFilter implements Filter {
 
     private Logger logger = LoggerFactory.getLogger(CookieFilter.class);
 
+    @Autowired
     private UserRepository userRepository;
 
     public AddCookieFilter() {
         // TODO Auto-generated constructor stub
     }
 
-    public AddCookieFilter(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     /**
+     * .
      * @see Filter#destroy()
      */
     public void destroy() {
@@ -45,6 +45,7 @@ public class AddCookieFilter implements Filter {
     }
 
     /**
+     * .
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -74,6 +75,7 @@ public class AddCookieFilter implements Filter {
     }
 
     /**
+     * .
      * @see Filter#init(FilterConfig)
      */
     public void init(FilterConfig fConfig) throws ServletException {
@@ -98,6 +100,6 @@ public class AddCookieFilter implements Filter {
         if (httpRequest.getSession().getAttribute(CookieFilter.USER_COOKIE_NAME) == null) {
             httpRequest.getSession().setAttribute(CookieFilter.USER_COOKIE_NAME, userId);
         }
+        logger.info("user added to session with id: " + userId);
     }
-
 }
