@@ -72,7 +72,7 @@
   <filter>
     <display-name>CookieFilter</display-name>
     <filter-name>CookieFilter</filter-name>
-    <filter-class>com.epam.urlchopper.filter.cookie.CookieFilter</filter-class>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>CookieFilter</filter-name>

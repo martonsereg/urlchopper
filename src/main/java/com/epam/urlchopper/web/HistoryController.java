@@ -38,15 +38,15 @@ public class HistoryController {
     @RequestMapping("/myUrls")
     public String myUrls(HttpSession session, Model model) {
         try {
-            //if (session.getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
-            Long userId = Long.valueOf(session.getAttribute(CookieFilter.USER_COOKIE_NAME).toString());
-            List<ShortUrlDTO> shortUrls = historyService.getUserUrls(userId);
-            model.addAttribute("shortUrls", shortUrls);
-            //}
+            if (session.getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
+                Long userId = Long.valueOf(session.getAttribute(CookieFilter.USER_COOKIE_NAME).toString());
+                List<ShortUrlDTO> shortUrls = historyService.getUserUrls(userId);
+                model.addAttribute("shortUrls", shortUrls);
+            } else {
+                logger.error("Session attribute cannot be found");
+            }
         } catch (NumberFormatException e) {
             logger.error("Session attribute cannot be parsed to Long " + e.getMessage());
-        } catch (Exception e) {
-            logger.error("Session attribute cannot be found " + e.getMessage());
         }
         return "myUrls";
     }

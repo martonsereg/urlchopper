@@ -51,10 +51,11 @@ public class IndexController {
         if (url.equals(TOP_SECRET)) {
             nUrl = TOP_SECRET_URL;
         }
-        String userIdAsString = request.getSession().getAttribute(CookieFilter.USER_COOKIE_NAME).toString();
         Long userId = null;
         try {
-            userId = Long.valueOf(userIdAsString);
+            if (request.getSession().getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
+                userId = Long.valueOf(request.getSession().getAttribute(CookieFilter.USER_COOKIE_NAME).toString());
+            }
         } catch (NumberFormatException e) {
             logger.error("Session attribute cannot be parsed to Long " + e.getMessage());
         }

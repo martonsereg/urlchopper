@@ -2,84 +2,135 @@ package com.epam.urlchopper.filter.cookie;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.epam.urlchopper.repository.UserRepository;
 
 /**
- * Servlet Filter implementation class CookieFilter.
+ * Runs before every request, to check if an application specific cookie was sent in the request.
+ * Adds the cookie value to the session, to be able to handle the user's generation history.
  */
-public class CookieFilter implements Filter {
+@Component("CookieFilter")
+public class CookieFilter extends OncePerRequestFilter {
 
     public static final String USER_COOKIE_NAME = "urlchopper_userid";
 
     private Logger logger = LoggerFactory.getLogger(CookieFilter.class);
 
-    /**
-     * Default constructor.
-     */
-    public CookieFilter() {
-        // TODO Auto-generated constructor stub
-    }
+    private Cookie[] cookies;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
-     * .
-     * @see Filter#destroy()
+     * The cookie value is used only once in a session.
+     * It is then stored in the session, if it's not already available.
+     * If the user rewrites the cookie value in the same session, his history still remains visible.
      */
-    public void destroy() {
-        // TODO Auto-generated method stub
-    }
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (userIdNotFoundInSession(request)) {
+            logger.info("User not found in session.");
 
-    /**
-     * .
-     * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-     */
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        // place your code here
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+            cookies = request.getCookies();
 
-        Cookie[] cookies = httpRequest.getCookies();
-
-        if (cookies != null) {
-            int i = 0;
-            while (i < cookies.length && !cookies[i].getName().equals(USER_COOKIE_NAME)) {
-                i++;
+            if (cookies != null) {
+                Cookie cookie = getUserCookie(cookies);
+                if (cookie != null) {
+                    logger.info("User cookie already exists in the browser with userid: " + cookie.getValue());
+                    if (cookieIsValid(cookie)) {
+                        addUserIdToSession(request, cookie.getValue());
+                    }
+                } else {
+                    logger.info("User cookie not found in the request");
+                }
+            } else {
+                logger.info("No cookies were sent in the request");
             }
-            if (i < cookies.length) {
-                logger.info("cookie already exists in browser with userid: " + cookies[i].getValue());
-                addUserIdToSession(httpRequest, cookies[i].getValue());
-            }
+
+        } else {
+            logger.info("User found in session: " + request.getSession().getAttribute(USER_COOKIE_NAME).toString());
         }
+        filterChain.doFilter(request, response);
+    }
 
-        // pass the request along the filter chain
-        chain.doFilter(httpRequest, httpResponse);
+    private boolean userIdNotFoundInSession(HttpServletRequest request) {
+        return request.getSession().getAttribute(USER_COOKIE_NAME) == null;
+    }
+
+    private Cookie getUserCookie(Cookie[] cookies) {
+        Cookie ret = null;
+        int i = incrementWhileCookieFound(cookies, 0);
+        if (cookieFound(cookies, i)) {
+            ret = cookies[i];
+        }
+        return ret;
+    }
+
+    private boolean cookieIsValid(Cookie cookie) {
+        boolean ret = true;
+        try {
+            Long userId = Long.parseLong(cookie.getValue());
+            if (userRepository.findUser(userId) == null) {
+                ret = false;
+                logger.error("User cookie is invalid in request, no corresponding user was found in database");
+            }
+        } catch (NumberFormatException e) {
+            ret = false;
+            logger.error("User cookie is invalid in request, it cannot be cast to long" + e.getMessage());
+        }
+        return false;
+    }
+
+    private boolean cookieFound(Cookie[] cookies, int i) {
+        return i < cookies.length;
+    }
+
+    private int incrementWhileCookieFound(Cookie[] cookies, int i) {
+        int ret = i;
+        while (ret < cookies.length && !cookies[ret].getName().equals(USER_COOKIE_NAME)) {
+            ret++;
+        }
+        return ret;
     }
 
     private void addUserIdToSession(HttpServletRequest httpRequest, String userId) {
-        if (httpRequest.getSession().getAttribute(USER_COOKIE_NAME) == null) {
-            logger.info("userid not found in session.");
-            httpRequest.getSession().setAttribute(USER_COOKIE_NAME, userId);
-        } else {
-            logger.info("userid found in session: " + httpRequest.getSession().getAttribute(USER_COOKIE_NAME).toString());
-        }
+        httpRequest.getSession().setAttribute(USER_COOKIE_NAME, userId);
+        logger.info("User added to session with id: " + userId);
     }
 
-    /**
-     * .
-     * @see Filter#init(FilterConfig)
-     */
-    public void init(FilterConfig fConfig) throws ServletException {
-        // TODO Auto-generated method stub
+    public Logger getLogger() {
+        return logger;
     }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public Cookie[] getCookies() {
+        return cookies;
+    }
+
+    public void setCookies(Cookie[] cookies) {
+        this.cookies = cookies;
+    }
+
 }
