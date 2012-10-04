@@ -201,4 +201,9 @@ public class SimpleUrlService implements UrlService {
         OriginalUrl origUrl = urlRepository.findShortUrl(url).getOriginalUrl();
         return origUrl;
     }
+
+    @Override
+    public List<OriginalUrl> getAllOriginalUrls() {
+        return urlRepository.findAllOriginalUrls();
+    }
 }

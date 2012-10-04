@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,8 @@ import com.epam.urlchopper.repository.UrlRepository;
  */
 @Repository
 public class JpaUrlRepository implements UrlRepository {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -98,7 +102,8 @@ public class JpaUrlRepository implements UrlRepository {
         if (safeOriginalUrl.charAt(safeOriginalUrl.length() - 1) != '%') {
             safeOriginalUrl = safeOriginalUrl + "%";
         }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.originalUrl) LIKE LOWER(:originalUrl)", ShortUrl.class);
+        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.originalUrl) LIKE LOWER(:originalUrl)",
+                ShortUrl.class);
         q.setParameter("originalUrl", safeOriginalUrl);
         return q.getResultList();
     }
@@ -121,5 +126,10 @@ public class JpaUrlRepository implements UrlRepository {
         shortUrl.setActiveUntil(lifespanEnd);
         entityManager.merge(shortUrl);
 
+    }
+
+    @Override
+    public List<OriginalUrl> findAllOriginalUrls() {
+        return entityManager.createQuery("SELECT o FROM OriginalUrl o", OriginalUrl.class).getResultList();
     }
 }

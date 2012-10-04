@@ -1,5 +1,7 @@
 package com.epam.urlchopper.service;
 
+import java.util.List;
+
 import com.epam.urlchopper.domain.OriginalUrl;
 
 /**
@@ -29,5 +31,7 @@ public interface UrlService {
      * @return original url to redirect
      */
     OriginalUrl findOriginalUrlByShortUrl(String url);
+
+    List<OriginalUrl> getAllOriginalUrls();
 
 }

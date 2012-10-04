@@ -90,4 +90,10 @@ public interface UrlRepository {
      */
     void lengthenLifespan(ShortUrl shortUrl, Long lifespanEnd);
 
+    /**
+     * Get all OriginalUrls.
+     * @return all Origianl URLs
+     */
+    List<OriginalUrl> findAllOriginalUrls();
+
 }
