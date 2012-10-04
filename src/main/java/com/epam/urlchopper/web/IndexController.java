@@ -1,7 +1,6 @@
 package com.epam.urlchopper.web;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.epam.urlchopper.service.CookieService;
+import com.epam.urlchopper.filter.cookie.CookieFilter;
 import com.epam.urlchopper.service.GeneratorService;
 
 /**
@@ -25,20 +24,17 @@ public class IndexController {
 
     private static final String TOP_SECRET_URL = "http://www.youtube.com/watch?v=SLmmfYd8dos";
     private static final String TOP_SECRET = "pinapinapunci";
-    private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
+    private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private GeneratorService generatorService;
-
-    @Autowired
-    private CookieService cookieService;
 
     /**
      * Controller for index page.
      * @return tiles name.
      */
     @RequestMapping("/")
-    public String index(HttpServletRequest request, HttpServletResponse response) {
+    public String index() {
         return "index";
     }
 
@@ -49,16 +45,20 @@ public class IndexController {
      * @return tiles name
      */
     @RequestMapping("/generateUrl")
-    public String generate(@RequestParam String url, HttpServletRequest request, HttpServletResponse response, RedirectAttributes model) {
-
-        LOG.debug("start");
+    public String generate(@RequestParam String url, HttpServletRequest request, RedirectAttributes model) {
 
         String nUrl = url;
         if (url.equals(TOP_SECRET)) {
             nUrl = TOP_SECRET_URL;
         }
-
-        String shortUrl = generatorService.generate(nUrl, cookieService.getUserId(request.getCookies()));
+        String userIdAsString = request.getSession().getAttribute(CookieFilter.USER_COOKIE_NAME).toString();
+        Long userId = null;
+        try {
+            userId = Long.valueOf(userIdAsString);
+        } catch (NumberFormatException e) {
+            logger.error("Session attribute cannot be parsed to Long " + e.getMessage());
+        }
+        String shortUrl = generatorService.generate(nUrl, userId);
 
         model.addFlashAttribute("shortUrl", shortUrl);
         return "redirect:/";

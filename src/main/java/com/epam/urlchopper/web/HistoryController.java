@@ -4,14 +4,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.epam.urlchopper.domain.ShortUrlDTO;
-import com.epam.urlchopper.service.CookieService;
+import com.epam.urlchopper.filter.cookie.CookieFilter;
 import com.epam.urlchopper.service.HistoryService;
 
 /**
@@ -25,8 +28,7 @@ public class HistoryController {
     @Autowired
     private HistoryService historyService;
 
-    @Autowired
-    private CookieService cookieService;
+    private Logger logger = LoggerFactory.getLogger(HistoryController.class);
 
     /**
      * Handle myUrls request.
@@ -34,14 +36,18 @@ public class HistoryController {
      * @return view page
      */
     @RequestMapping("/myUrls")
-    public String myUrls(HttpServletRequest request, HttpServletResponse response, Model model) {
-        Long userId = cookieService.getUserId(request.getCookies());
-
-        if (userId != null) {
+    public String myUrls(HttpSession session, Model model) {
+        try {
+            //if (session.getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
+            Long userId = Long.valueOf(session.getAttribute(CookieFilter.USER_COOKIE_NAME).toString());
             List<ShortUrlDTO> shortUrls = historyService.getUserUrls(userId);
             model.addAttribute("shortUrls", shortUrls);
+            //}
+        } catch (NumberFormatException e) {
+            logger.error("Session attribute cannot be parsed to Long " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("Session attribute cannot be found " + e.getMessage());
         }
-
         return "myUrls";
     }
 
