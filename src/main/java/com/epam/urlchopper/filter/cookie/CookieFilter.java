@@ -58,15 +58,18 @@ public class CookieFilter implements Filter {
             }
             if (i < cookies.length) {
                 logger.info("cookie already exists in browser with userid: " + cookies[i].getValue());
-                Long userId = Long.valueOf(cookies[i].getValue());
-                if (httpRequest.getSession().getAttribute(USER_COOKIE_NAME) == null) {
-                    httpRequest.getSession().setAttribute(USER_COOKIE_NAME, cookies[i].getValue());
-                }
+                addUserIdToSession(httpRequest, cookies[i].getValue());
             }
         }
 
         // pass the request along the filter chain
-        chain.doFilter(request, response);
+        chain.doFilter(httpRequest, httpResponse);
+    }
+
+    private void addUserIdToSession(HttpServletRequest httpRequest, String userId) {
+        if (httpRequest.getSession().getAttribute(USER_COOKIE_NAME) == null) {
+            httpRequest.getSession().setAttribute(USER_COOKIE_NAME, userId);
+        }
     }
 
     /**
