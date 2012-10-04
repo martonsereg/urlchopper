@@ -1,11 +1,13 @@
 package com.epam.urlchopper.service;
 
+import com.epam.urlchopper.domain.OriginalUrl;
+
 /**
  * .
  * @author Marton_Sereg
  *
  */
-public interface GeneratorService {
+public interface UrlService {
 
     /**
      * Generate a unique short URL for an exist URL.
@@ -19,13 +21,13 @@ public interface GeneratorService {
      * @param url short URL
      * @return original url to redirect
      */
-    String findOriginalUrl(String url);
+    OriginalUrl findOriginalUrl(String url);
 
     /**
      * .
      * @param url short URL
      * @return original url to redirect
      */
-    String findOriginalUrlByShortUrl(String url);
+    OriginalUrl findOriginalUrlByShortUrl(String url);
 
 }

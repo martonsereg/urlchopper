@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.urlchopper.filter.cookie.CookieFilter;
-import com.epam.urlchopper.service.GeneratorService;
+import com.epam.urlchopper.service.UrlService;
 
 /**
  * Controller to handle short url requests.
@@ -27,7 +27,7 @@ public class IndexController {
     private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
-    private GeneratorService generatorService;
+    private UrlService urlService;
 
     /**
      * Controller for index page.
@@ -58,7 +58,7 @@ public class IndexController {
         } catch (NumberFormatException e) {
             logger.error("Session attribute cannot be parsed to Long " + e.getMessage());
         }
-        String shortUrl = generatorService.generate(nUrl, userId);
+        String shortUrl = urlService.generate(nUrl, userId);
 
         model.addFlashAttribute("shortUrl", shortUrl);
         return "redirect:/";
@@ -75,7 +75,7 @@ public class IndexController {
 
         String retUrl = "";
         try {
-            String url = generatorService.findOriginalUrlByShortUrl(shortUrl);
+            String url = urlService.findOriginalUrlByShortUrl(shortUrl).getUrl();
             model.addFlashAttribute("url", url);
             retUrl = "redirect:/waitpage";
         } catch (Exception e) {
