@@ -68,7 +68,10 @@ public class CookieFilter implements Filter {
 
     private void addUserIdToSession(HttpServletRequest httpRequest, String userId) {
         if (httpRequest.getSession().getAttribute(USER_COOKIE_NAME) == null) {
+            logger.info("userid not found in session.");
             httpRequest.getSession().setAttribute(USER_COOKIE_NAME, userId);
+        } else {
+            logger.info("userid found in session: " + httpRequest.getSession().getAttribute(USER_COOKIE_NAME).toString());
         }
     }
 

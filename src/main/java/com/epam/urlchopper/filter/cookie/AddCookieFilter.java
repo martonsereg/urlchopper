@@ -27,7 +27,7 @@ import com.epam.urlchopper.repository.UserRepository;
 @Component("AddCookieFilter")
 public class AddCookieFilter implements Filter {
 
-    private Logger logger = LoggerFactory.getLogger(CookieFilter.class);
+    private Logger logger = LoggerFactory.getLogger(AddCookieFilter.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -67,6 +67,8 @@ public class AddCookieFilter implements Filter {
                 User user = createUser();
                 Cookie cookie = createCookie(user, httpResponse);
                 addUserIdToSession(httpRequest, cookie.getValue());
+            } else {
+                logger.info("cookie exists in browser");
             }
         }
 

@@ -88,7 +88,7 @@ public class SimpleUrlService implements UrlService {
     public String generate(String requestedOriginalUrl, Long userId) {
         OriginalUrl originalUrl = findOriginalUrl(requestedOriginalUrl);
         ShortUrl shortUrl = null;
-        User user = userRepository.findUser(userId);
+
         if (shortUrlExistsForOriginal(originalUrl)) {
             lengthenLifeSpan(originalUrl);
             mergeOriginalUrl(originalUrl);
@@ -100,7 +100,10 @@ public class SimpleUrlService implements UrlService {
             createOriginalUrl(requestedOriginalUrl);
             shortUrl = createShortUrl(requestedOriginalUrl);
         }
-        updateUser(shortUrl, user);
+        if (userId != null) {
+            User user = userRepository.findUser(userId);
+            updateUser(shortUrl, user);
+        }
         return shortUrl.getShortUrlPostfix();
     }
 
