@@ -19,14 +19,14 @@ import com.epam.urlchopper.domain.ShortUrl;
 import com.epam.urlchopper.domain.User;
 import com.epam.urlchopper.repository.UrlRepository;
 import com.epam.urlchopper.repository.UserRepository;
-import com.epam.urlchopper.service.GeneratorService;
+import com.epam.urlchopper.service.UrlService;
 
 /**
  * .
  *
  */
 @Service
-public class SimpleGeneratorService implements GeneratorService {
+public class SimpleUrlService implements UrlService {
 
     private static final long DEFAULT_LIFESPAN = 86400000L;
 
@@ -42,7 +42,7 @@ public class SimpleGeneratorService implements GeneratorService {
 
     private static final int MULTIPLY = 1000;
 
-    private Logger logger = LoggerFactory.getLogger(SimpleGeneratorService.class);
+    private Logger logger = LoggerFactory.getLogger(SimpleUrlService.class);
 
     private Integer generateUrlLength = DEFAULT_SHORTURL_LENGTH;
 
@@ -86,29 +86,40 @@ public class SimpleGeneratorService implements GeneratorService {
 
     @Override
     public String generate(String requestedOriginalUrl, Long userId) {
-        String generatedShortUrlPostfix = "";
-        OriginalUrl originalUrl = urlRepository.findOriginalUrl(convertToValidUrl(requestedOriginalUrl));
+        OriginalUrl originalUrl = findOriginalUrl(requestedOriginalUrl);
+        ShortUrl shortUrl = null;
         User user = userRepository.findUser(userId);
         if (shortUrlExistsForOriginal(originalUrl)) {
-            originalUrl.increaseReferenceCount();
-            generatedShortUrlPostfix = originalUrl.getShortUrl().getShortUrlPostfix();
-            urlRepository.lengthenLifespan(originalUrl.getShortUrl(), calculateLifeSpanEnd());
-            urlRepository.mergeOriginalUrl(originalUrl);
-            user.addShortUrl(originalUrl.getShortUrl());
+            lengthenLifeSpan(originalUrl);
+            mergeOriginalUrl(originalUrl);
+            shortUrl = originalUrl.getShortUrl();
         } else if (originalUrlIsExistWithoutShortUrl(originalUrl)) {
-            originalUrl.increaseReferenceCount();
-            generatedShortUrlPostfix = generateUniqueShortUrlPostfix();
-            urlRepository.mergeOriginalUrl(originalUrl);
-            createShortUrl(originalUrl, generatedShortUrlPostfix);
-            user.addShortUrl(originalUrl.getShortUrl());
+            mergeOriginalUrl(originalUrl);
+            shortUrl = createShortUrl(originalUrl);
         } else {
-            generatedShortUrlPostfix = generateUniqueShortUrlPostfix();
             createOriginalUrl(requestedOriginalUrl);
-            ShortUrl shortUrl = createShortUrl(requestedOriginalUrl, generatedShortUrlPostfix);
-            user.addShortUrl(shortUrl);
+            shortUrl = createShortUrl(requestedOriginalUrl);
         }
+        updateUser(shortUrl, user);
+        return shortUrl.getShortUrlPostfix();
+    }
+
+    private void lengthenLifeSpan(OriginalUrl originalUrl) {
+        urlRepository.lengthenLifespan(originalUrl.getShortUrl(), calculateLifeSpanEnd());
+    }
+
+    private void updateUser(ShortUrl shortUrl, User user) {
+        user.addShortUrl(shortUrl);
         userRepository.update(user);
-        return generatedShortUrlPostfix;
+    }
+
+    private void mergeOriginalUrl(OriginalUrl originalUrl) {
+        originalUrl.increaseReferenceCount();
+        urlRepository.mergeOriginalUrl(originalUrl);
+    }
+
+    private String initEmptyString() {
+        return "";
     }
 
     private boolean shortUrlExistsForOriginal(OriginalUrl originalUrl) {
@@ -123,13 +134,13 @@ public class SimpleGeneratorService implements GeneratorService {
         return urlRepository.createOriginalUrl(new OriginalUrl(convertToValidUrl(originalUrl), 1));
     }
 
-    private ShortUrl createShortUrl(String originalUrl, String generatedShortUrl) {
+    private ShortUrl createShortUrl(String originalUrl) {
         OriginalUrl tmp = new OriginalUrl(convertToValidUrl(originalUrl), 1);
-        return createShortUrl(tmp, generatedShortUrl);
+        return createShortUrl(tmp);
     }
 
-    private ShortUrl createShortUrl(OriginalUrl originalUrl, String generatedShortUrl) {
-        ShortUrl url = new ShortUrl(generatedShortUrl, originalUrl, calculateLifeSpanEnd());
+    private ShortUrl createShortUrl(OriginalUrl originalUrl) {
+        ShortUrl url = new ShortUrl(generateUniqueShortUrlPostfix(), originalUrl, calculateLifeSpanEnd());
         originalUrl.setShortUrl(url);
         return urlRepository.createShortUrl(url);
     }
@@ -139,7 +150,7 @@ public class SimpleGeneratorService implements GeneratorService {
     }
 
     private String generateUniqueShortUrlPostfix() {
-        String ret = "";
+        String ret = initEmptyString();
         ret = generateShortUrl();
         while (urlAlreadyExists(ret)) {
             ret = generateShortUrl();
@@ -156,7 +167,7 @@ public class SimpleGeneratorService implements GeneratorService {
     }
 
     private String generateShortUrl() {
-        String ret = "";
+        String ret = initEmptyString();
 
         for (int i = 0; i < generateUrlLength; i++) {
             double rnd = Math.random();
@@ -178,13 +189,13 @@ public class SimpleGeneratorService implements GeneratorService {
     }
 
     @Override
-    public String findOriginalUrl(String url) {
-        return urlRepository.findOriginalUrl(url).getUrl();
+    public OriginalUrl findOriginalUrl(String url) {
+        return urlRepository.findOriginalUrl(convertToValidUrl(url));
     }
 
     @Override
-    public String findOriginalUrlByShortUrl(String url) {
+    public OriginalUrl findOriginalUrlByShortUrl(String url) {
         OriginalUrl origUrl = urlRepository.findShortUrl(url).getOriginalUrl();
-        return origUrl.getUrl();
+        return origUrl;
     }
 }

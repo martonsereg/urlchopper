@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.urlchopper.service.CookieService;
-import com.epam.urlchopper.service.GeneratorService;
+import com.epam.urlchopper.service.UrlService;
 
 /**
  * Controller to handle short url requests.
@@ -28,7 +28,7 @@ public class IndexController {
     private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
-    private GeneratorService generatorService;
+    private UrlService generatorService;
 
     @Autowired
     private CookieService cookieService;
@@ -75,7 +75,7 @@ public class IndexController {
 
         String retUrl = "";
         try {
-            String url = generatorService.findOriginalUrlByShortUrl(shortUrl);
+            String url = generatorService.findOriginalUrlByShortUrl(shortUrl).getUrl();
             model.addFlashAttribute("url", url);
             retUrl = "redirect:/waitpage";
         } catch (Exception e) {
