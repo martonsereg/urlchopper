@@ -7,8 +7,6 @@ import com.epam.urlchopper.domain.ShortUrl;
 
 /**
  * Repository interface, to manage the ShortUrl domain object.
- * @author Marton_Sereg
- *
  */
 public interface UrlRepository {
 

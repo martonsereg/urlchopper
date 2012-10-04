@@ -16,8 +16,6 @@ import com.epam.urlchopper.service.UrlService;
 
 /**
  * Controller to handle short url requests.
- * @author Marton_Sereg
- *
  */
 @Controller
 public class IndexController {

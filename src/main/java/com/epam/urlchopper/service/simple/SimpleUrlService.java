@@ -23,7 +23,6 @@ import com.epam.urlchopper.service.UrlService;
 
 /**
  * .
- *
  */
 @Service
 public class SimpleUrlService implements UrlService {

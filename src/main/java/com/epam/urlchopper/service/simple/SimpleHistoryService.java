@@ -15,7 +15,6 @@ import com.epam.urlchopper.service.HistoryService;
 
 /**
  * Simple implementation for HistoryService.
- * @author Gergely_Topolyai
  */
 @Service
 public class SimpleHistoryService implements HistoryService {

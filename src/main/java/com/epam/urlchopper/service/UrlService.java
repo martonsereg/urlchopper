@@ -6,8 +6,6 @@ import com.epam.urlchopper.domain.OriginalUrl;
 
 /**
  * .
- * @author Marton_Sereg
- *
  */
 public interface UrlService {
 

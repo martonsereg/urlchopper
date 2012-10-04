@@ -17,8 +17,6 @@ import com.epam.urlchopper.repository.UrlRepository;
 
 /** Jpa based implementation of ShortUrlRepository.
  * @see com.epam.urlchopper.repository.UrlRepository
- * @author Marton_Sereg
- *
  */
 @Repository
 public class JpaUrlRepository implements UrlRepository {
@@ -102,8 +100,7 @@ public class JpaUrlRepository implements UrlRepository {
         if (safeOriginalUrl.charAt(safeOriginalUrl.length() - 1) != '%') {
             safeOriginalUrl = safeOriginalUrl + "%";
         }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.originalUrl) LIKE LOWER(:originalUrl)",
-                ShortUrl.class);
+        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.originalUrl) LIKE LOWER(:originalUrl)", ShortUrl.class);
         q.setParameter("originalUrl", safeOriginalUrl);
         return q.getResultList();
     }

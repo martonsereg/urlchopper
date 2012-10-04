@@ -7,8 +7,6 @@ import com.epam.urlchopper.domain.ShortUrlDTO;
 
 /**
  * HistoryService.
- * @author Gergely_Topolyai
- *
  */
 public interface HistoryService {
 

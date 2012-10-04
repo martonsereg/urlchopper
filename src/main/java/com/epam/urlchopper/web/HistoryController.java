@@ -19,8 +19,6 @@ import com.epam.urlchopper.service.HistoryService;
 
 /**
  * Controller for histories.
- * @author Gergely_Topolyai
- *
  */
 @Controller
 public class HistoryController {
