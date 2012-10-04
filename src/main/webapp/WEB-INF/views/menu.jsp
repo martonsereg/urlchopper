@@ -19,7 +19,9 @@
                                 <c:url value="/allUrls" var="allUrls" />
                                 <li><a href="${allUrls }">All</a></li>
                             </ul>
-                        </li>			
+                        </li>
+                    <c:url value="/statistics" var="statUrl"></c:url>
+					<li><a href="${statUrl }">Statistic</a></li>			
 				</ul>	
 			</div>
 			<!-- /.nav-collapse -->

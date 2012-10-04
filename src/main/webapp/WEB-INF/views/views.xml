@@ -5,32 +5,39 @@
 
 <tiles-definitions>
 
-  <definition name="index" extends="default">
-    <put-attribute name="body" value="/WEB-INF/views/index.jsp" />
-  </definition>
-  
-  <definition name="waitpage" extends="default">
-    <put-attribute name="body" value="/WEB-INF/views/waitpage.jsp" />
-  </definition>
-  
-  <definition name="myUrls" extends="default">
-    <put-attribute name="body" value="/WEB-INF/views/myUrls.jsp" />
-  </definition>
-  
-  <definition name="allUrls" extends="default">
-    <put-attribute name="body" value="/WEB-INF/views/allUrls.jsp" />
-  </definition>
+	<definition name="index" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+	</definition>
 
-  <definition name="error/dataAccessFailure" extends="public">
-    <put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jspx" />
-  </definition>
+	<definition name="waitpage" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/waitpage.jsp" />
+	</definition>
 
-  <definition name="error/resourceNotFound" extends="public">
-    <put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jspx" />
-  </definition>
+	<definition name="myUrls" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/myUrls.jsp" />
+	</definition>
 
-  <definition name="error/uncaughtException" extends="public">
-    <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
-  </definition>
+	<definition name="allUrls" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/allUrls.jsp" />
+	</definition>
+	
+	<definition name="statistics" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/statistics.jsp" />
+	</definition>
+
+	<definition name="error/dataAccessFailure" extends="public">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dataAccessFailure.jspx" />
+	</definition>
+
+	<definition name="error/resourceNotFound" extends="public">
+		<put-attribute name="body"
+			value="/WEB-INF/views/resourceNotFound.jspx" />
+	</definition>
+
+	<definition name="error/uncaughtException" extends="public">
+		<put-attribute name="body"
+			value="/WEB-INF/views/uncaughtException.jspx" />
+	</definition>
 
 </tiles-definitions>
