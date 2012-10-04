@@ -7,18 +7,21 @@
     <p>
       <spring:message code="error_uncaughtexception_problemdescription" />
     </p>
-    <c:if test="${not empty exception}">
+    <c:if test="${not empty pageContext.errorData.throwable}">
+    error
       <p>
         <h4>
           <spring:message code="exception_details" />
         </h4>
         <spring:message var="message" code="exception_message" htmlEscape="false" />
+        cause:
         <util:panel id="_message" title="${message}" openPane="false">
-          <c:out value="${exception.localizedMessage}" />
+          <c:out value="${pageContext.errorData.throwable.cause}" />
         </util:panel>
+        stack:
         <spring:message var="stacktrace" code="exception_stacktrace" htmlEscape="false" />
         <util:panel id="_exception" title="${stacktrace}" openPane="false">
-          <c:forEach items="${exception.stackTrace}" var="trace">
+          <c:forEach items="${pageContext.errorData.throwable.stackTrace}" var="trace">
             <c:out value="${trace}" />
             <br />
           </c:forEach>
