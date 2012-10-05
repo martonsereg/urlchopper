@@ -1,15 +1,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-v0.1.7
+<!-- v0.1.7 -->
 
-<c:forEach items="${cookie}" var="nextCookie">
-    <li>${nextCookie.key} = ${nextCookie.value}
-</c:forEach>
-
+<%-- <c:forEach items="${cookie}" var="nextCookie"> --%>
+<%--     <li>${nextCookie.key} = ${nextCookie.value} --%>
+<%-- </c:forEach> --%>
 
 <center>
 	<c:if test="${not empty errorMsg }">
-		<div class="alert alert-error">${errorMsg }</div>
+		<div class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<c:out value="${errorMsg}"/>
+		</div>
 	</c:if>
 
 	<c:url value="/generateUrl" var="generateUrl" />
@@ -47,5 +49,4 @@ v0.1.7
 			</tbody>
 		</table>
 	</c:if>
-
 </center>
