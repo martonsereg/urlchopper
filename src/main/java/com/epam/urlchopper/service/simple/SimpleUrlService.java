@@ -94,10 +94,10 @@ public class SimpleUrlService implements UrlService {
             shortUrl = originalUrl.getShortUrl();
         } else if (originalUrlIsExistWithoutShortUrl(originalUrl)) {
             mergeOriginalUrl(originalUrl);
-            shortUrl = createShortUrl(originalUrl);
+            createShortUrl(originalUrl);
         } else {
             createOriginalUrl(requestedOriginalUrl);
-            shortUrl = createShortUrl(requestedOriginalUrl);
+            createShortUrl(requestedOriginalUrl);
         }
         if (userId != null) {
             Creator user = userRepository.findUser(userId);
@@ -132,19 +132,19 @@ public class SimpleUrlService implements UrlService {
         return existUrl != null && existUrl.getShortUrl() == null;
     }
 
-    private OriginalUrl createOriginalUrl(String originalUrl) {
-        return urlRepository.createOriginalUrl(new OriginalUrl(convertToValidUrl(originalUrl), 1));
+    private void createOriginalUrl(String originalUrl) {
+        urlRepository.createOriginalUrl(new OriginalUrl(convertToValidUrl(originalUrl), 1));
     }
 
-    private ShortUrl createShortUrl(String originalUrl) {
+    private void createShortUrl(String originalUrl) {
         OriginalUrl tmp = new OriginalUrl(convertToValidUrl(originalUrl), 1);
-        return createShortUrl(tmp);
+        createShortUrl(tmp);
     }
 
-    private ShortUrl createShortUrl(OriginalUrl originalUrl) {
+    private void createShortUrl(OriginalUrl originalUrl) {
         ShortUrl url = new ShortUrl(generateUniqueShortUrlPostfix(), originalUrl, calculateLifeSpanEnd());
         originalUrl.setShortUrl(url);
-        return urlRepository.createShortUrl(url);
+        urlRepository.createShortUrl(url);
     }
 
     private long calculateLifeSpanEnd() {

@@ -47,16 +47,14 @@ public class JpaUrlRepository implements UrlRepository {
 
     @Override
     @Transactional
-    public ShortUrl createShortUrl(ShortUrl url) {
+    public void createShortUrl(ShortUrl url) {
         entityManager.persist(url);
-        return url;
     }
 
     @Override
     @Transactional
-    public OriginalUrl createOriginalUrl(OriginalUrl url) {
+    public void createOriginalUrl(OriginalUrl url) {
         entityManager.persist(url);
-        return url;
     }
 
     @Override
