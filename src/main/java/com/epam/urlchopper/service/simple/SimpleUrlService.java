@@ -103,7 +103,7 @@ public class SimpleUrlService implements UrlService {
             User user = userRepository.findUser(userId);
             updateUser(shortUrl, user);
         }
-        return shortUrl.getShortUrlPostfix();
+        return shortUrl.getShortUrlPostfixId();
     }
 
     private void lengthenLifeSpan(OriginalUrl originalUrl) {

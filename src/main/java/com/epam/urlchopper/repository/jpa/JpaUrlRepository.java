@@ -65,7 +65,7 @@ public class JpaUrlRepository implements UrlRepository {
         if (entityManager.contains(shortUrl)) {
             entityManager.remove(shortUrl);
         } else {
-            ShortUrl attached = findShortUrl(shortUrl.getShortUrlPostfix());
+            ShortUrl attached = findShortUrl(shortUrl.getShortUrlPostfixId());
             this.entityManager.remove(attached);
         }
     }

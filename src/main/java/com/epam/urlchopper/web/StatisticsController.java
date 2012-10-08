@@ -43,7 +43,7 @@ public class StatisticsController {
         List<StatisticUrlDTO> retList = new ArrayList<StatisticUrlDTO>();
 
         for (OriginalUrl originalUrl : list) {
-            StatisticUrlDTO dto = new StatisticUrlDTO(originalUrl.getUrl(), originalUrl.getReferenceCount());
+            StatisticUrlDTO dto = new StatisticUrlDTO(originalUrl.getUrlId(), originalUrl.getReferenceCount());
             retList.add(dto);
         }
         return retList;

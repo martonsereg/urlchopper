@@ -15,7 +15,7 @@ public class OriginalUrl {
 
     @Id
     @Column(length = ORIGINAL_URL_MAX_LENGTH)
-    private String url;
+    private String urlId;
 
     private Integer referenceCount;
 
@@ -29,16 +29,16 @@ public class OriginalUrl {
     }
 
     public OriginalUrl(String originalUrl, Integer references) {
-        this.url = originalUrl;
+        this.urlId = originalUrl;
         this.referenceCount = references;
     }
 
-    public String getUrl() {
-        return url;
+    public String getUrlId() {
+        return urlId;
     }
 
-    public void setUrl(String originalUrl) {
-        this.url = originalUrl;
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
     }
 
     public Integer getReferenceCount() {

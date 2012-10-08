@@ -16,7 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ShortUrl {
 
     @Id
-    private String shortUrlPostfix;
+    private String shortUrlPostfixId;
 
     private Long activeUntil;
 
@@ -40,17 +40,17 @@ public class ShortUrl {
      * @param activeUntil
      */
     public ShortUrl(String shortUrl, OriginalUrl originalUrl, Long activeUntil) {
-        this.shortUrlPostfix = shortUrl;
+        this.shortUrlPostfixId = shortUrl;
         this.originalUrl = originalUrl;
         this.activeUntil = activeUntil;
     }
 
-    public String getShortUrlPostfix() {
-        return shortUrlPostfix;
+    public String getShortUrlPostfixId() {
+        return shortUrlPostfixId;
     }
 
-    public void setShortUrlPostfix(String shortUrlPostfix) {
-        this.shortUrlPostfix = shortUrlPostfix;
+    public void setShortUrlPostfixId(String shortUrlPostfix) {
+        this.shortUrlPostfixId = shortUrlPostfix;
     }
 
     public Long getActiveUntil() {

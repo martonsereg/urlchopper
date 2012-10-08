@@ -33,8 +33,8 @@ public class SimpleHistoryService implements HistoryService {
         if (user != null) {
             for (ShortUrl shorturl : user.getShortUrls()) {
                 ShortUrlDTO dto = new ShortUrlDTO();
-                dto.setOriginalUrl(shorturl.getOriginalUrl().getUrl());
-                dto.setShortUrl(shorturl.getShortUrlPostfix());
+                dto.setOriginalUrl(shorturl.getOriginalUrl().getUrlId());
+                dto.setShortUrl(shorturl.getShortUrlPostfixId());
                 retUrls.add(dto);
             }
         }
@@ -59,8 +59,8 @@ public class SimpleHistoryService implements HistoryService {
         for (int i = list.size(); i > list.size() - historySize; i--) {
             ShortUrlDTO dto = new ShortUrlDTO();
             ShortUrl url = list.get(i);
-            dto.setOriginalUrl(url.getOriginalUrl().getUrl());
-            dto.setShortUrl(url.getShortUrlPostfix());
+            dto.setOriginalUrl(url.getOriginalUrl().getUrlId());
+            dto.setShortUrl(url.getShortUrlPostfixId());
         }
 
         return ret;
