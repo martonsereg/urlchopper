@@ -1,10 +1,8 @@
 package com.epam.urlchopper.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Version;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -22,10 +20,6 @@ public class ShortUrl {
 
     @OneToOne
     private OriginalUrl originalUrl;
-
-    @Version
-    @Column(name = "version")
-    private Integer version;
 
     /**
      * Needed by JPA.
@@ -67,14 +61,6 @@ public class ShortUrl {
 
     public void setOriginalUrl(OriginalUrl originalUrl) {
         this.originalUrl = originalUrl;
-    }
-
-    public Integer getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     /**

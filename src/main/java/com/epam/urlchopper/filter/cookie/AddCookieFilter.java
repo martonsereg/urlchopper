@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.epam.urlchopper.domain.User;
+import com.epam.urlchopper.domain.Creator;
 import com.epam.urlchopper.repository.UserRepository;
 
 /**
@@ -47,7 +47,7 @@ public class AddCookieFilter extends OncePerRequestFilter {
                 int i = incrementWhileCookieFound(cookies, 0);
                 if (cookieNotFound(cookies, i)) {
                     logger.info("Cookie does not exist in browser");
-                    User user = createUser();
+                    Creator user = createUser();
                     Cookie cookie = createCookie(user, response);
                     addUserIdToSession(request, cookie.getValue());
                 } else {
@@ -80,14 +80,14 @@ public class AddCookieFilter extends OncePerRequestFilter {
         return i >= cookies.length;
     }
 
-    private User createUser() {
-        User user = userRepository.create(new User());
+    private Creator createUser() {
+        Creator user = userRepository.create(new Creator());
         logger.info("New user added with id: " + user.getUserId());
         return user;
     }
 
-    private Cookie createCookie(User user, HttpServletResponse response) {
-        Cookie cookie = new Cookie("urlchopper_userid", user.getUserIdAsString());
+    private Cookie createCookie(Creator user, HttpServletResponse response) {
+        Cookie cookie = new Cookie("urlchopper_userid", user.getCreatorIdAsString());
         cookie.setMaxAge(Integer.MAX_VALUE);
         response.addCookie(cookie);
         logger.info("Cookie added to response with userid: " + cookie.getValue());

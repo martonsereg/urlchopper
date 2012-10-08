@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.epam.urlchopper.domain.ShortUrl;
-import com.epam.urlchopper.domain.User;
+import com.epam.urlchopper.domain.Creator;
 import com.epam.urlchopper.repository.UrlRepository;
 import com.epam.urlchopper.repository.UserRepository;
 
@@ -37,7 +37,7 @@ public class SimpleHistoryServiceTest {
     @Test
     public void testGetUsersUrlsShouldEmptyListWhenNoShortUrls() {
         //given
-        User user = new User();
+        Creator user = new Creator();
         user.setShortUrls(new ArrayList<ShortUrl>());
 
         EasyMock.expect(userRepository.findUser(EasyMock.anyLong())).andReturn(user);

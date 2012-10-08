@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.epam.urlchopper.domain.User;
+import com.epam.urlchopper.domain.Creator;
 import com.epam.urlchopper.repository.UserRepository;
 
 /**
@@ -20,19 +20,19 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     @Transactional
-    public User create(User user) {
+    public Creator create(Creator user) {
         entityManager.persist(user);
         return user;
     }
 
     @Override
-    public User findUser(Long userId) {
-        return entityManager.find(User.class, userId);
+    public Creator findUser(Long userId) {
+        return entityManager.find(Creator.class, userId);
     }
 
     @Override
     @Transactional
-    public void update(User user) {
+    public void update(Creator user) {
         entityManager.merge(user);
     }
 

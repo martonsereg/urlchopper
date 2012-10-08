@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.epam.urlchopper.domain.OriginalUrl;
 import com.epam.urlchopper.domain.ShortUrl;
-import com.epam.urlchopper.domain.User;
+import com.epam.urlchopper.domain.Creator;
 import com.epam.urlchopper.repository.UrlRepository;
 import com.epam.urlchopper.repository.UserRepository;
 import com.epam.urlchopper.service.UrlService;
@@ -100,7 +100,7 @@ public class SimpleUrlService implements UrlService {
             shortUrl = createShortUrl(requestedOriginalUrl);
         }
         if (userId != null) {
-            User user = userRepository.findUser(userId);
+            Creator user = userRepository.findUser(userId);
             updateUser(shortUrl, user);
         }
         return shortUrl.getShortUrlPostfixId();
@@ -110,7 +110,7 @@ public class SimpleUrlService implements UrlService {
         urlRepository.lengthenLifespan(originalUrl.getShortUrl(), calculateLifeSpanEnd());
     }
 
-    private void updateUser(ShortUrl shortUrl, User user) {
+    private void updateUser(ShortUrl shortUrl, Creator user) {
         user.addShortUrl(shortUrl);
         userRepository.update(user);
     }

@@ -1,16 +1,16 @@
 package com.epam.urlchopper.repository;
 
-import com.epam.urlchopper.domain.User;
+import com.epam.urlchopper.domain.Creator;
 
 /**
  * .
  */
 public interface UserRepository {
 
-    User create(User user);
+    Creator create(Creator user);
 
-    User findUser(Long userId);
+    Creator findUser(Long userId);
 
-    void update(User user);
+    void update(Creator user);
 
 }
