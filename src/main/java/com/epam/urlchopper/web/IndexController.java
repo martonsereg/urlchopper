@@ -1,6 +1,5 @@
 package com.epam.urlchopper.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +26,6 @@ import com.epam.urlchopper.service.UrlService;
 @Controller
 public class IndexController {
 
-    private static final int PAGINATION_IN_EVERY_CHARACTER = 100;
-
     private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
@@ -46,7 +43,7 @@ public class IndexController {
         try {
             if (session.getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
                 Long userId = Long.valueOf(session.getAttribute(CookieFilter.USER_COOKIE_NAME).toString());
-                List<ShortUrlDTO> shortUrls = brokenUsersUrls(historyService.getUserUrls(userId));
+                List<ShortUrlDTO> shortUrls = historyService.getUserUrls(userId);
                 model.addAttribute("shortUrls", shortUrls);
             } else {
                 logger.error("Session attribute cannot be found");
@@ -109,34 +106,6 @@ public class IndexController {
     @RequestMapping("/waitpage")
     public String waitpage() {
         return "waitpage";
-    }
-
-    private List<ShortUrlDTO> brokenUsersUrls(List<ShortUrlDTO> list) {
-        List<ShortUrlDTO> ret = new ArrayList<ShortUrlDTO>();
-
-        for (ShortUrlDTO shortUrlDTO : list) {
-            String newOriginalUrl = insertBreak(shortUrlDTO.getOriginalUrl());
-            ShortUrlDTO dto = new ShortUrlDTO();
-            dto.setOriginalUrl(newOriginalUrl);
-            dto.setShortUrl(shortUrlDTO.getShortUrl());
-            ret.add(dto);
-        }
-
-        return ret;
-    }
-
-    private String insertBreak(String string) {
-        String ret = "";
-        int i = 1;
-        for (Character c : string.toCharArray()) {
-            ret += c;
-            if (i % PAGINATION_IN_EVERY_CHARACTER == 0) {
-                ret += "<br>";
-            }
-            i++;
-        }
-
-        return ret;
     }
 
 }

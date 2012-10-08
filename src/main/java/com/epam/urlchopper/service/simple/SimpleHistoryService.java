@@ -19,6 +19,8 @@ import com.epam.urlchopper.service.HistoryService;
 @Service
 public class SimpleHistoryService implements HistoryService {
 
+    private static final int PAGINATION_IN_EVERY_CHARACTER = 100;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -33,7 +35,7 @@ public class SimpleHistoryService implements HistoryService {
         if (user != null) {
             for (ShortUrl shorturl : user.getShortUrls()) {
                 ShortUrlDTO dto = new ShortUrlDTO();
-                dto.setOriginalUrl(shorturl.getOriginalUrl().getUrlId());
+                dto.setOriginalUrl(insertBreak(shorturl.getOriginalUrl().getUrlId()));
                 dto.setShortUrl(shorturl.getShortUrlPostfixId());
                 retUrls.add(dto);
             }
@@ -72,6 +74,20 @@ public class SimpleHistoryService implements HistoryService {
 
     public void setUrlRepository(UrlRepository urlRepository) {
         this.urlRepository = urlRepository;
+    }
+
+    private String insertBreak(String string) {
+        String ret = "";
+        int i = 1;
+        for (Character c : string.toCharArray()) {
+            ret += c;
+            if (i % PAGINATION_IN_EVERY_CHARACTER == 0) {
+                ret += "<br>";
+            }
+            i++;
+        }
+
+        return ret;
     }
 
 }
