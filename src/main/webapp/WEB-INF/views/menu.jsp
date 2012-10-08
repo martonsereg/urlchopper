@@ -10,16 +10,7 @@
 			<div class="nav-collapse">
 				<ul class="nav">
 					<c:url value="/" var="indexUrl"></c:url>
-					<li><a href="${indexUrl }">Generate URL</a></li>
-					<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Short URLs<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                            	<c:url value="/myUrls" var="myUrls" />
-                                <li><a href="${myUrls }">My</a></li>
-                                <c:url value="/allUrls" var="allUrls" />
-                                <li><a href="${allUrls }">All</a></li>
-                            </ul>
-                        </li>
+					<li><a href="${indexUrl }">Generate URL</a></li>					
                     <c:url value="/statistics" var="statUrl"></c:url>
 					<li><a href="${statUrl }">Statistic</a></li>			
 				</ul>	
