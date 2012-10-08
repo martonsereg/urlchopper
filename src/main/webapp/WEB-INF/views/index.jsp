@@ -32,7 +32,7 @@ v0.1.25
 			<form style="text-align: center;">
 				<h2>Generated URL:</h2>
 				<c:url value="/${shortUrl }" var="redirectUrl" />
-				<a href="${redirectUrl }">http://localhost:8080/urlchopper/${shortUrl}</a>
+				<a href="${redirectUrl }">${shortUrl}</a>
 			</form>
 		</c:if>
 
@@ -50,7 +50,8 @@ v0.1.25
 							<c:forEach items="${shortUrls }" var="shortUrl">
 								<tr class="">
 									<td>${shortUrl.originalUrl }</td>
-									<td>${shortUrl.shortUrl }</td>
+									<c:url value="/${shortUrl.originalUrl }" var="redirectUrl" />
+									<td><a href="${redirectUrl }">${shortUrl.shortUrl}</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
