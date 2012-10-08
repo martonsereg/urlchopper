@@ -70,4 +70,22 @@ public class ShortUrl {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean ret = false;
+
+        if (obj instanceof ShortUrl) {
+            ShortUrl c = (ShortUrl) obj;
+            ret = c.shortUrlPostfixId.equals(this.shortUrlPostfixId);
+        }
+
+        return ret;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

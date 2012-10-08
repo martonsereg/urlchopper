@@ -3,7 +3,9 @@ package com.epam.urlchopper.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -18,7 +20,7 @@ public class Creator {
     @GeneratedValue
     private Long creatorId;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ShortUrl> shortUrls = new ArrayList<ShortUrl>();
 
     public Long getCreatorId() {
@@ -43,6 +45,10 @@ public class Creator {
 
     public void addShortUrl(ShortUrl shortUrl) {
         shortUrls.add(shortUrl);
+    }
+
+    public void removeShortUrl(ShortUrl shortUrl) {
+        shortUrls.remove(shortUrl);
     }
 
 }
