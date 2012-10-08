@@ -1,5 +1,7 @@
 package com.epam.urlchopper.repository.jpa;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -34,6 +36,11 @@ public class JpaUserRepository implements UserRepository {
     @Transactional
     public void update(Creator user) {
         entityManager.merge(user);
+    }
+
+    @Override
+    public List<Creator> findAllUser() {
+        return entityManager.createQuery("SELECT c FROM Creator c", Creator.class).getResultList();
     }
 
 }
