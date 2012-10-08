@@ -20,8 +20,6 @@ import com.epam.urlchopper.service.UrlService;
 @Controller
 public class IndexController {
 
-    private static final String TOP_SECRET_URL = "http://www.youtube.com/watch?v=SLmmfYd8dos";
-    private static final String TOP_SECRET = "pinapinapunci";
     private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
@@ -45,10 +43,6 @@ public class IndexController {
     @RequestMapping("/generateUrl")
     public String generate(@RequestParam String url, HttpServletRequest request, RedirectAttributes model) {
 
-        String nUrl = url;
-        if (url.equals(TOP_SECRET)) {
-            nUrl = TOP_SECRET_URL;
-        }
         Long userId = null;
         try {
             if (request.getSession().getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
@@ -57,7 +51,7 @@ public class IndexController {
         } catch (NumberFormatException e) {
             logger.error("Session attribute cannot be parsed to Long " + e.getMessage());
         }
-        String shortUrl = urlService.generate(nUrl, userId);
+        String shortUrl = urlService.generate(url, userId);
 
         model.addFlashAttribute("shortUrl", shortUrl);
         return "redirect:/";
