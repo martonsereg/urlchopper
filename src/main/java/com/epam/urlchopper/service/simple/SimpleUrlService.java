@@ -192,8 +192,7 @@ public class SimpleUrlService implements UrlService {
         return ret;
     }
 
-    @Override
-    public OriginalUrl findOriginalUrl(String url) {
+    private OriginalUrl findOriginalUrl(String url) {
         return urlRepository.findOriginalUrl(convertToValidUrl(url));
     }
 

@@ -21,13 +21,6 @@ public interface UrlService {
      * @param url short URL
      * @return original url to redirect
      */
-    OriginalUrl findOriginalUrl(String url);
-
-    /**
-     * .
-     * @param url short URL
-     * @return original url to redirect
-     */
     OriginalUrl findOriginalUrlByShortUrl(String url);
 
     List<OriginalUrl> getAllOriginalUrls();
