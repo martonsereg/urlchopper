@@ -27,6 +27,8 @@ import com.epam.urlchopper.service.UrlService;
 @Service
 public class SimpleUrlService implements UrlService {
 
+    private static final String CONFIG_PROPERTIES = "config.properties";
+
     private static final long DEFAULT_LIFESPAN = 86400000L;
 
     private static final int DEFAULT_SHORTURL_LENGTH = 6;
@@ -73,7 +75,7 @@ public class SimpleUrlService implements UrlService {
     @PostConstruct
     private void loadProperties() {
         try {
-            properties = PropertiesLoaderUtils.loadAllProperties("config.properties");
+            properties = PropertiesLoaderUtils.loadAllProperties(CONFIG_PROPERTIES);
             generateUrlLength = Integer.valueOf(properties.getProperty("shorturls.generateUrlLength"));
             shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.lifespan"));
         } catch (NumberFormatException e) {

@@ -1,12 +1,16 @@
 package com.epam.urlchopper.repository.jpa;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,19 +24,32 @@ import com.epam.urlchopper.repository.UrlRepository;
 @Repository
 public class JpaUrlRepository implements UrlRepository {
 
+    private static final String CONFIG_PROPERTIES = "jpqls.properties";
+
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    private Properties properties;
 
     @PersistenceContext
     private EntityManager entityManager;
 
+    @PostConstruct
+    private void loadProperties() {
+        try {
+            properties = PropertiesLoaderUtils.loadAllProperties(CONFIG_PROPERTIES);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
     @Override
     public long countShortUrls() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM ShortUrl o", Long.class).getSingleResult();
+        return entityManager.createQuery(properties.getProperty("shortUrl.count"), Long.class).getSingleResult();
     }
 
     @Override
     public List<ShortUrl> findAllShortUrls() {
-        return entityManager.createQuery("SELECT o FROM ShortUrl o", ShortUrl.class).getResultList();
+        return entityManager.createQuery(properties.getProperty("shortUrl.findAll"), ShortUrl.class).getResultList();
     }
 
     @Override
@@ -97,6 +114,6 @@ public class JpaUrlRepository implements UrlRepository {
 
     @Override
     public List<OriginalUrl> findAllOriginalUrls() {
-        return entityManager.createQuery("SELECT o FROM OriginalUrl o", OriginalUrl.class).getResultList();
+        return entityManager.createQuery(properties.getProperty("originalUrl.findAll"), OriginalUrl.class).getResultList();
     }
 }
