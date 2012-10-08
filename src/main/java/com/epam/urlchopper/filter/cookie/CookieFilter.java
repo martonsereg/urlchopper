@@ -89,7 +89,7 @@ public class CookieFilter extends OncePerRequestFilter {
             ret = false;
             logger.error("User cookie is invalid in request, it cannot be cast to long" + e.getMessage());
         }
-        return false;
+        return ret;
     }
 
     private boolean cookieFound(Cookie[] cookies, int i) {
