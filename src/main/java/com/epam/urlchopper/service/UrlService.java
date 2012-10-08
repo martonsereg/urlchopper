@@ -3,6 +3,7 @@ package com.epam.urlchopper.service;
 import java.util.List;
 
 import com.epam.urlchopper.domain.OriginalUrl;
+import com.epam.urlchopper.domain.ShortUrl;
 
 /**
  * .
@@ -24,5 +25,9 @@ public interface UrlService {
     OriginalUrl findOriginalUrlByShortUrl(String url);
 
     List<OriginalUrl> getAllOriginalUrls();
+
+    List<ShortUrl> getAllExpiredShortUrls();
+
+    void removeShortUrl(ShortUrl shortUrl);
 
 }

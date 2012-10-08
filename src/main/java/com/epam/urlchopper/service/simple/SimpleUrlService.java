@@ -96,10 +96,10 @@ public class SimpleUrlService implements UrlService {
             shortUrl = originalUrl.getShortUrl();
         } else if (originalUrlIsExistWithoutShortUrl(originalUrl)) {
             mergeOriginalUrl(originalUrl);
-            createShortUrl(originalUrl);
+            shortUrl = createShortUrl(originalUrl);
         } else {
             createOriginalUrl(requestedOriginalUrl);
-            createShortUrl(requestedOriginalUrl);
+            shortUrl = createShortUrl(requestedOriginalUrl);
         }
         if (userId != null) {
             Creator user = userRepository.findUser(userId);
@@ -138,15 +138,16 @@ public class SimpleUrlService implements UrlService {
         urlRepository.createOriginalUrl(new OriginalUrl(convertToValidUrl(originalUrl), 1));
     }
 
-    private void createShortUrl(String originalUrl) {
+    private ShortUrl createShortUrl(String originalUrl) {
         OriginalUrl tmp = new OriginalUrl(convertToValidUrl(originalUrl), 1);
-        createShortUrl(tmp);
+        return createShortUrl(tmp);
     }
 
-    private void createShortUrl(OriginalUrl originalUrl) {
+    private ShortUrl createShortUrl(OriginalUrl originalUrl) {
         ShortUrl url = new ShortUrl(generateUniqueShortUrlPostfix(), originalUrl, calculateLifeSpanEnd());
         originalUrl.setShortUrl(url);
         urlRepository.createShortUrl(url);
+        return url;
     }
 
     private long calculateLifeSpanEnd() {
@@ -205,5 +206,33 @@ public class SimpleUrlService implements UrlService {
     @Override
     public List<OriginalUrl> getAllOriginalUrls() {
         return urlRepository.findAllOriginalUrls();
+    }
+
+    @Override
+    public List<ShortUrl> getAllExpiredShortUrls() {
+        List<ShortUrl> list = urlRepository.findAllShortUrls();
+        List<ShortUrl> ret = new ArrayList<ShortUrl>();
+
+        Date now = new Date();
+        for (ShortUrl shortUrl : list) {
+            if (shortUrl.getActiveUntil() < now.getTime()) {
+                ret.add(shortUrl);
+                logger.info("add");
+            }
+        }
+
+        return ret;
+    }
+
+    @Override
+    public void removeShortUrl(ShortUrl shortUrl) {
+        List<Creator> creators = userRepository.findAllUser();
+
+        for (Creator creator : creators) {
+            creator.removeShortUrl(shortUrl);
+            userRepository.update(creator);
+        }
+
+        urlRepository.remove(shortUrl);
     }
 }
