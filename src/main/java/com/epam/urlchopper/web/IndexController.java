@@ -1,17 +1,23 @@
 package com.epam.urlchopper.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.epam.urlchopper.domain.ShortUrlDTO;
 import com.epam.urlchopper.filter.cookie.CookieFilter;
+import com.epam.urlchopper.service.HistoryService;
 import com.epam.urlchopper.service.UrlService;
 
 /**
@@ -25,12 +31,26 @@ public class IndexController {
     @Autowired
     private UrlService urlService;
 
+    @Autowired
+    private HistoryService historyService;
+
     /**
      * Controller for index page.
      * @return tiles name.
      */
     @RequestMapping("/")
-    public String index() {
+    public String index(HttpSession session, Model model) {
+        try {
+            if (session.getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
+                Long userId = Long.valueOf(session.getAttribute(CookieFilter.USER_COOKIE_NAME).toString());
+                List<ShortUrlDTO> shortUrls = historyService.getUserUrls(userId);
+                model.addAttribute("shortUrls", shortUrls);
+            } else {
+                logger.error("Session attribute cannot be found");
+            }
+        } catch (NumberFormatException e) {
+            logger.error("Session attribute cannot be parsed to Long " + e.getMessage());
+        }
         return "index";
     }
 
