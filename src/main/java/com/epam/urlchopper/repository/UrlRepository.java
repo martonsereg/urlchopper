@@ -61,20 +61,6 @@ public interface UrlRepository {
     ShortUrl update(ShortUrl shortUrl);
 
     /**
-     * Finds ShortUrls by OriginalUrl.
-     * @param originalUrl originalUrl
-     * @return found ShortUrls
-     */
-    List<ShortUrl> findShortUrlsByOriginalUrlEquals(String originalUrl);
-
-    /**
-     * Finds ShortUrls by OriginalUrl.
-     * @param originalUrl originalUrl
-     * @return found ShortUrls
-     */
-    List<ShortUrl> findShortUrlsByOriginalUrlLike(String originalUrl);
-
-    /**
      * Finds OriginalUrl by id.
      * @param url originalUrl
      * @return found ShortUrls

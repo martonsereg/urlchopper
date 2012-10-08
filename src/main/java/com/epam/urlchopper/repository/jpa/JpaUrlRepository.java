@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,33 +73,6 @@ public class JpaUrlRepository implements UrlRepository {
         ShortUrl merged = entityManager.merge(shortUrl);
         entityManager.flush();
         return merged;
-    }
-
-    @Override
-    public List<ShortUrl> findShortUrlsByOriginalUrlEquals(String originalUrl) {
-        if (originalUrl == null || originalUrl.length() == 0) {
-            throw new IllegalArgumentException("The originalUrl argument is required");
-        }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE o.originalUrl = :originalUrl", ShortUrl.class);
-        q.setParameter("originalUrl", originalUrl);
-        return q.getResultList();
-    }
-
-    @Override
-    public List<ShortUrl> findShortUrlsByOriginalUrlLike(String originalUrl) {
-        if (originalUrl == null || originalUrl.length() == 0) {
-            throw new IllegalArgumentException("The originalUrl argument is required");
-        }
-        String safeOriginalUrl = originalUrl.replace('*', '%');
-        if (safeOriginalUrl.charAt(0) != '%') {
-            safeOriginalUrl = "%" + safeOriginalUrl;
-        }
-        if (safeOriginalUrl.charAt(safeOriginalUrl.length() - 1) != '%') {
-            safeOriginalUrl = safeOriginalUrl + "%";
-        }
-        TypedQuery<ShortUrl> q = entityManager.createQuery("SELECT o FROM ShortUrl AS o WHERE LOWER(o.originalUrl) LIKE LOWER(:originalUrl)", ShortUrl.class);
-        q.setParameter("originalUrl", safeOriginalUrl);
-        return q.getResultList();
     }
 
     @Override
