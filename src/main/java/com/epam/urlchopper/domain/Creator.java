@@ -21,7 +21,7 @@ public class Creator {
     @ManyToMany
     private List<ShortUrl> shortUrls = new ArrayList<ShortUrl>();
 
-    public Long getUserId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 

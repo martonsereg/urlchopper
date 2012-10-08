@@ -82,7 +82,7 @@ public class AddCookieFilter extends OncePerRequestFilter {
 
     private Creator createUser() {
         Creator user = userRepository.create(new Creator());
-        logger.info("New user added with id: " + user.getUserId());
+        logger.info("New user added with id: " + user.getCreatorId());
         return user;
     }
 
