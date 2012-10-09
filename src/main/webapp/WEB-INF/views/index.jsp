@@ -1,10 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-v0.1.25
+v0.1.26
 
-<%-- <c:forEach items="${cookie}" var="nextCookie"> --%>
-<%--     <li>${nextCookie.key} = ${nextCookie.value} --%>
-<%-- </c:forEach> --%>
+<c:if test="${ not empty param.qa }">
+	<c:forEach items="${cookie}" var="nextCookie">
+		<li>${nextCookie.key} = ${nextCookie.value}
+	</c:forEach>
+</c:if>
 
 <div class="row-fluid">
 	<div class="span3"></div>
