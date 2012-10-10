@@ -27,8 +27,6 @@ public class AddCookieFilter extends OncePerRequestFilter {
 
     private Logger logger = LoggerFactory.getLogger(AddCookieFilter.class);
 
-    private Cookie[] cookies;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -41,7 +39,7 @@ public class AddCookieFilter extends OncePerRequestFilter {
         if (userIdNotFoundInSession(request)) {
             logger.info("User not found in session.");
 
-            cookies = request.getCookies();
+            Cookie[] cookies = request.getCookies();
 
             if (cookies != null) {
                 int i = incrementWhileCookieFound(cookies, 0);
@@ -113,13 +111,5 @@ public class AddCookieFilter extends OncePerRequestFilter {
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public Cookie[] getCookies() {
-        return cookies;
-    }
-
-    public void setCookies(Cookie[] cookies) {
-        this.cookies = cookies;
     }
 }
