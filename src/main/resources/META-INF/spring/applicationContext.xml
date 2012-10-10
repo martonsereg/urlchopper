@@ -10,12 +10,20 @@
  			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
  		    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 
-	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+	<context:property-placeholder location="classpath*:*.properties" />
 
 	<context:spring-configured />
-	
+
 	<task:annotation-driven />
 
+	<task:scheduled-tasks scheduler="removeExpiredShortUrlScheduler">
+		<task:scheduled ref="removeExpiredShortUrl" method="remove" fixed-delay="${shorturls.removeExpired}" />
+	</task:scheduled-tasks>
+
+	<task:scheduler id="removeExpiredShortUrlScheduler" />
+	
+	<bean id="removeExpiredShortUrl" class="com.epam.urlchopper.service.RemoveExpiredShortUrl" />
+	
 	<context:component-scan base-package="com.epam.urlchopper">
 		<context:exclude-filter expression=".*_Roo_.*"
 			type="regex" />

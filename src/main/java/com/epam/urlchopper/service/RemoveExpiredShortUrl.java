@@ -5,26 +5,19 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import com.epam.urlchopper.domain.ShortUrl;
 
 /**
  * Remove expired short URL from database.
  */
-@Component
 public class RemoveExpiredShortUrl {
-
-    //default delaytime = 3600000 (1 hour)
-    private static final int DELAY_TIME = 60000;
 
     private Logger logger = LoggerFactory.getLogger(RemoveExpiredShortUrl.class);
 
     @Autowired
     private UrlService urlService;
 
-    @Scheduled(fixedDelay = DELAY_TIME)
     public void remove() {
 
         List<ShortUrl> urls = urlService.getAllExpiredShortUrls();
