@@ -165,10 +165,17 @@ public class SimpleUrlService implements UrlService {
 
     private String convertToValidUrl(String originalUrl) {
         String ret = originalUrl;
-        if (!originalUrl.startsWith("http://")) {
+        if (!originalUrlIsValid(originalUrl)) {
             ret = "http://" + originalUrl;
         }
         return ret;
+    }
+
+    private boolean originalUrlIsValid(String originalUrl) {
+        return originalUrl.startsWith("http://") || originalUrl.startsWith("https://") || originalUrl.startsWith("ftp://") || originalUrl.startsWith("mailto:")
+                || originalUrl.startsWith("gopher://") || originalUrl.startsWith("telnet://") || originalUrl.startsWith("mid:") || originalUrl.startsWith("cid:")
+                || originalUrl.startsWith("news:") || originalUrl.startsWith("nntp://") || originalUrl.startsWith("tn3270://") || originalUrl.startsWith("rlogin://")
+                || originalUrl.startsWith("file://") || originalUrl.startsWith("wais://") || originalUrl.startsWith("nfs://") || originalUrl.startsWith("prospero://");
     }
 
     private String generateShortUrl() {
