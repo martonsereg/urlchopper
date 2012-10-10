@@ -1,4 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<fmt:bundle basename="messages" />
 
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -10,9 +13,9 @@
 			<div class="nav-collapse">
 				<ul class="nav">
 					<c:url value="/" var="indexUrl"></c:url>
-					<li><a href="${indexUrl }">Generate URL</a></li>					
+					<li><a href="${indexUrl }"><fmt:message key="menu.generateurl" /></a></li>					
                     <c:url value="/statistics" var="statUrl"></c:url>
-					<li><a href="${statUrl }">Statistics</a></li>			
+					<li><a href="${statUrl }"><fmt:message key="menu.statistics" /></a></li>			
 				</ul>	
 			</div>
 			<!-- /.nav-collapse -->

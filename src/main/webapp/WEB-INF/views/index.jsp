@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<fmt:bundle basename="messages" />
 
 <c:if test="${ not empty param.qa }">
 v0.1.26
@@ -22,9 +24,10 @@ v0.1.26
 			<form class="bs-docs-example" action="${generateUrl }"
 				style="text-align: center;">
 				<div class="input-append">
+					<fmt:message key="index.textbox.url.placeholder" var="urlPlaceholder" />
 					<input type="text" name="url" class="input-xxlarge"
-						placeholder="Type url..." />
-					<button type="submit" class="btn">Generate</button>
+						placeholder="${urlPlaceholder }" />
+					<button type="submit" class="btn"><fmt:message key="index.button.generate" /></button>
 				</div>
 			</form>
 		</div>
@@ -32,9 +35,9 @@ v0.1.26
 
 		<c:if test="${not empty shortUrl }">
 			<form style="text-align: center;">
-				<h2>Generated URL:</h2>
+				<h2><fmt:message key="index.link.generatedurl" /></h2>
 				<c:url value="/${shortUrl }" var="redirectUrl" />
-				<a href="${redirectUrl }">http://localhost:8080/urlchopper/${shortUrl}</a>
+				<a href="${redirectUrl }"><fmt:message key="url.prefix" />${shortUrl}</a>
 			</form>
 		</c:if>
 
@@ -44,8 +47,8 @@ v0.1.26
 					<table class="table">
 						<thead>
 							<tr>
-								<th>Original URLs</th>
-								<th>Short URLs</th>
+								<th><fmt:message key="index.tableheader.originalurl" /></th>
+								<th><fmt:message key="index.tableheader.shorturl" /></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -53,7 +56,7 @@ v0.1.26
 								<tr class="">
 									<td>${shortUrl.originalUrl }</td>
 									<c:url value="/${shortUrl.shortUrl }" var="redirectUrl" />
-									<td><a href="${redirectUrl }">http://localhost:8080/urlchopper/${shortUrl.shortUrl}</a></td>
+									<td><a href="${redirectUrl }"><fmt:message key="url.prefix" />${shortUrl.shortUrl}</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
