@@ -5,12 +5,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.epam.urlchopper.domain.ShortUrl;
 
 /**
  * Remove expired short URL from database.
  */
+@Component
 public class RemoveExpiredShortUrl {
 
     private Logger logger = LoggerFactory.getLogger(RemoveExpiredShortUrl.class);
@@ -18,6 +21,7 @@ public class RemoveExpiredShortUrl {
     @Autowired
     private UrlService urlService;
 
+    @Scheduled(cron = "${expired.remove.cron}")
     public void remove() {
 
         List<ShortUrl> urls = urlService.getAllExpiredShortUrls();

@@ -16,13 +16,13 @@
 
 	<task:annotation-driven />
 
-	<task:scheduled-tasks scheduler="removeExpiredShortUrlScheduler">
-		<task:scheduled ref="removeExpiredShortUrl" method="remove" fixed-delay="${shorturls.removeExpired}" />
-	</task:scheduled-tasks>
+<!-- 	<task:scheduled-tasks scheduler="removeExpiredShortUrlScheduler"> -->
+<!-- 		<task:scheduled ref="removeExpiredShortUrl" method="remove" fixed-delay="${shorturls.removeExpired}" /> -->
+<!-- 	</task:scheduled-tasks> -->
 
-	<task:scheduler id="removeExpiredShortUrlScheduler" />
+<!-- 	<task:scheduler id="removeExpiredShortUrlScheduler" /> -->
 	
-	<bean id="removeExpiredShortUrl" class="com.epam.urlchopper.service.RemoveExpiredShortUrl" />
+<!-- 	<bean id="removeExpiredShortUrl" class="com.epam.urlchopper.service.RemoveExpiredShortUrl" /> -->
 	
 	<context:component-scan base-package="com.epam.urlchopper">
 		<context:exclude-filter expression=".*_Roo_.*"
@@ -30,6 +30,7 @@
 		<context:exclude-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
 	</context:component-scan>
+ 
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" id="dataSource">
 		<property name="driverClassName" value="${database.driverClassName}" />
