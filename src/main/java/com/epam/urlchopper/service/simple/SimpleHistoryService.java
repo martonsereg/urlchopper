@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.epam.urlchopper.domain.ShortUrl;
-import com.epam.urlchopper.domain.ShortUrlDTO;
 import com.epam.urlchopper.domain.Creator;
 import com.epam.urlchopper.repository.UrlRepository;
 import com.epam.urlchopper.repository.UserRepository;
 import com.epam.urlchopper.service.HistoryService;
+import com.epam.urlchopper.service.dto.ShortUrlDTO;
 
 /**
  * Simple implementation for HistoryService.

@@ -1,4 +1,4 @@
-package com.epam.urlchopper.filter.cookie;
+package com.epam.urlchopper.web.userhandling;
 
 import java.io.IOException;
 

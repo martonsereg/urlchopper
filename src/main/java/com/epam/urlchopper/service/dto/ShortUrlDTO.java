@@ -1,4 +1,4 @@
-package com.epam.urlchopper.domain;
+package com.epam.urlchopper.service.dto;
 
 /**
  * Data Transfer Object. Transfer the short URL and Original URL only.

@@ -1,4 +1,4 @@
-package com.epam.urlchopper.aop.timer;
+package com.epam.urlchopper.repository;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

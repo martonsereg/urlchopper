@@ -3,7 +3,7 @@ package com.epam.urlchopper.service;
 import java.util.List;
 
 import com.epam.urlchopper.domain.ShortUrl;
-import com.epam.urlchopper.domain.ShortUrlDTO;
+import com.epam.urlchopper.service.dto.ShortUrlDTO;
 
 /**
  * HistoryService.
