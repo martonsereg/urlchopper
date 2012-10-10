@@ -3,6 +3,7 @@
 
 <c:if test="${ not empty param.qa }">
 v0.1.26
+árvíztűrő tükörfúrógép
 	<c:forEach items="${cookie}" var="nextCookie">
 		<li>${nextCookie.key} = ${nextCookie.value}
 	</c:forEach>
@@ -13,7 +14,7 @@ v0.1.26
 	<div class="span6">
 		<c:if test="${not empty errorMsg }">
 			<div class="alert alert-error">
-				<button type="button" class="close" data-dismiss="alert">�</button>
+				<button type="button" class="close" data-dismiss="alert">×</button>
 			</div>
 		</c:if>
 
