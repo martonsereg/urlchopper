@@ -77,7 +77,7 @@ public class SimpleUrlService implements UrlService {
         try {
             properties = PropertiesLoaderUtils.loadAllProperties(CONFIG_PROPERTIES);
             generateUrlLength = Integer.valueOf(properties.getProperty("shorturls.generateUrlLength"));
-            shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.lifespan"));
+            shortUrlLifeSpan = Long.valueOf(properties.getProperty("shorturls.testlifespan"));
         } catch (NumberFormatException e) {
             logger.error(e.getMessage());
         } catch (IOException e) {
