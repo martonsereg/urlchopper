@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
+import com.epam.urlchopper.domain.Creator;
 import com.epam.urlchopper.domain.OriginalUrl;
 import com.epam.urlchopper.domain.ShortUrl;
-import com.epam.urlchopper.domain.Creator;
 import com.epam.urlchopper.repository.UrlRepository;
 import com.epam.urlchopper.repository.UserRepository;
 import com.epam.urlchopper.service.UrlService;
@@ -205,6 +205,7 @@ public class SimpleUrlService implements UrlService {
 
     @Override
     public List<OriginalUrl> getAllOriginalUrls() {
+        //todo: transform to DTO and insert line breaks
         return urlRepository.findAllOriginalUrls();
     }
 
