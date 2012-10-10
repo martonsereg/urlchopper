@@ -12,7 +12,7 @@
 					<c:url value="/" var="indexUrl"></c:url>
 					<li><a href="${indexUrl }">Generate URL</a></li>					
                     <c:url value="/statistics" var="statUrl"></c:url>
-					<li><a href="${statUrl }">Statistic</a></li>			
+					<li><a href="${statUrl }">Statistics</a></li>			
 				</ul>	
 			</div>
 			<!-- /.nav-collapse -->
