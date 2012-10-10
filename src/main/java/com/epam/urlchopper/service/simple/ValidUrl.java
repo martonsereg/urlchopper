@@ -5,7 +5,7 @@ package com.epam.urlchopper.service.simple;
  * @author Marton_Sereg
  *
  */
-public enum ValidUrlEnum {
+public enum ValidUrl {
     HTTP("http://"),
     HTTPS("https://"),
     FTP("ftp://"),
@@ -25,7 +25,7 @@ public enum ValidUrlEnum {
 
     private String value;
 
-    private ValidUrlEnum(String value) {
+    private ValidUrl(String value) {
         this.value = value;
     }
 
