@@ -1,12 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%@page contentType="text/html; charset=UTF-8" %>
+
 <fmt:bundle basename="messages" />
 
 <c:if test="${ not empty param.qa }">
 v0.1.26
 	<c:forEach items="${cookie}" var="nextCookie">
-		<li>${nextCookie.key} = ${nextCookie.value}
+		<li>${nextCookie.key} = ${nextCookie.value}</li>
 	</c:forEach>
 </c:if>
 
@@ -22,7 +24,7 @@ v0.1.26
 		<c:url value="/generateUrl" var="generateUrl" />
 		<div class="row-fluid">
 			<form class="bs-docs-example" action="${generateUrl }"
-				style="text-align: center;">
+				style="text-align: center;" method="post">
 				<div class="input-append">
 					<fmt:message key="index.textbox.url.placeholder" var="urlPlaceholder" />
 					<input type="text" name="url" class="input-xxlarge"
