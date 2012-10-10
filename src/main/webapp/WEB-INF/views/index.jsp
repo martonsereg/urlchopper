@@ -1,8 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-v0.1.26
 
 <c:if test="${ not empty param.qa }">
+v0.1.26
 	<c:forEach items="${cookie}" var="nextCookie">
 		<li>${nextCookie.key} = ${nextCookie.value}
 	</c:forEach>
@@ -34,7 +34,7 @@ v0.1.26
 			<form style="text-align: center;">
 				<h2>Generated URL:</h2>
 				<c:url value="/${shortUrl }" var="redirectUrl" />
-				<a href="${redirectUrl }">${shortUrl}</a>
+				<a href="${redirectUrl }">http://localhost:8080/urlchopper/${shortUrl}</a>
 			</form>
 		</c:if>
 
@@ -52,8 +52,8 @@ v0.1.26
 							<c:forEach items="${shortUrls }" var="shortUrl">
 								<tr class="">
 									<td>${shortUrl.originalUrl }</td>
-									<c:url value="/${shortUrl.originalUrl }" var="redirectUrl" />
-									<td><a href="${redirectUrl }">${shortUrl.shortUrl}</a></td>
+									<c:url value="/${shortUrl.shortUrl }" var="redirectUrl" />
+									<td><a href="${redirectUrl }">http://localhost:8080/urlchopper/${shortUrl.shortUrl}</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
