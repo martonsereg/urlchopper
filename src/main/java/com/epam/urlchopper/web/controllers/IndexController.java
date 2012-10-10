@@ -62,7 +62,7 @@ public class IndexController {
      */
     @RequestMapping("/generateUrl")
     public String generate(@RequestParam String url, HttpServletRequest request, RedirectAttributes model) {
-
+        logger.info("url sent in request: " + url);
         Long userId = null;
         try {
             if (request.getSession().getAttribute(CookieFilter.USER_COOKIE_NAME) != null) {
